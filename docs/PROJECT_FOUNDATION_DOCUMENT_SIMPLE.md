@@ -9,7 +9,7 @@
 
 ### What is Booky Center?
 
-**Booky Center is like a magic button on your phone.** One tap, and you can book anything you need in your daily life—a football pitch, a haircut, a plumber, or a birthday party venue.
+**Booky Center is like a magic button on your phone.** One tap, and you can book anything you need in your daily life—a football pitch, a haircut, a plumber, or a birthday party venue and much more
 
 Think of it this way:
 
@@ -30,6 +30,10 @@ Think of it this way:
 ## 2. Why Now? 📱
 
 ### The Numbers Tell the Story
+
+### **Reference**
+ **Digital Adoption in Egypt (2026):** [DataReportal Egypt Insight](https://datareportal.com/reports/digital-2026-egypt) – Detailed stats on internet penetration (82.7%) and mobile connection trends.
+
 
 Egypt is ready for Booky Center. Here's why:
 
