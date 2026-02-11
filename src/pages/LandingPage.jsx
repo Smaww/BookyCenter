@@ -862,7 +862,7 @@ const TransformationSection = () => {
 
   // The 4 Key Pains vs. Booky Solutions (Condensed for impact)
   const problems = [
-    'مكالمات كتير ومحدش بيرد.',
+    'بحث و مكالمات كتير ومحدش بيرد.',
     'بتروح المشوار وتستنى بالساعات.',
     'أسعار مش واضحة ومفاجآت.',
     'حجزك ضاع في الزحمة.',
@@ -981,11 +981,12 @@ const TransformationSection = () => {
 };
 
 // ============================================================================
-// PRICING SECTION - Fixed Layout (Desktop Aligned, Mobile Horizontal Scroll)
+// PRICING SECTION - ROBUST CSS GRID ARCHITECTURE (Fail-Safe)
 // ============================================================================
 const PricingSection = () => {
   const [ref, isInView] = useInView(0.15);
-  const [activeSlide, setActiveSlide] = useState(1); // Track active slide for mobile
+  const [activeSlide, setActiveSlide] = useState(0);
+  const scrollRef = useRef(null);
 
   const tiers = [
     {
@@ -1022,10 +1023,23 @@ const PricingSection = () => {
 
   // Handle scroll for mobile dot indicators
   const handleScroll = (e) => {
-    const scrollLeft = e.target.scrollLeft;
-    const cardWidth = e.target.offsetWidth * 0.85;
-    const newActive = Math.round(scrollLeft / cardWidth);
-    setActiveSlide(Math.min(newActive, 2));
+    const container = e.target;
+    const scrollLeft = container.scrollLeft;
+    const cardWidth = container.firstChild?.offsetWidth || 300;
+    const gap = 16;
+    const newActive = Math.round(scrollLeft / (cardWidth + gap));
+    setActiveSlide(Math.min(Math.max(newActive, 0), 2));
+  };
+
+  // Scroll to specific card when dot is clicked
+  const scrollToCard = (index) => {
+    if (scrollRef.current && scrollRef.current.children[index]) {
+      scrollRef.current.children[index].scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center'
+      });
+    }
   };
 
   return (
@@ -1040,114 +1054,97 @@ const PricingSection = () => {
           <p className="text-gray-500 font-cairo text-sm sm:text-base lg:text-lg">ابدأ مجاناً وطور في أي وقت</p>
         </div>
 
-        {/* ========== DESKTOP: Grid Layout (3 columns) ========== */}
-        <div className="hidden md:grid md:grid-cols-3 gap-6 px-4 sm:px-6">
-          {tiers.map((tier, index) => (
-            <div
-              key={tier.name}
-              className={`relative flex flex-col bg-white rounded-3xl p-8 border-2 transition-all duration-700 h-full ${
-                tier.popular ? 'border-black shadow-xl shadow-black/10' : 'border-gray-200'
-              } ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-              style={{ transitionDelay: `${index * 100}ms` }}
-            >
-              {tier.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="px-4 py-1.5 bg-black text-white text-xs font-bold rounded-full font-cairo">
-                    الأكثر طلباً
-                  </span>
-                </div>
-              )}
-
-              {/* Header */}
-              <div className="text-center mb-6">
-                <h3 className="text-xl font-black text-black mb-2 font-cairo">{tier.name}</h3>
-                <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-5xl font-black text-black font-cairo">{tier.price}</span>
-                </div>
-                <p className="text-sm text-gray-500 font-cairo mt-1">{tier.period}</p>
-                <p className="text-xs text-gray-400 font-cairo mt-2">{tier.description}</p>
-              </div>
-
-              {/* Features - flex-grow to push button down */}
-              <ul className="space-y-3 flex-grow">
-                {tier.features.map((feature, i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      tier.popular ? 'bg-black' : 'bg-gray-300'
-                    }`}>
-                      <Icons.Check className="w-3 h-3 text-white" />
-                    </div>
-                    <span className="text-gray-700 font-cairo text-sm">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* CTA Button - mt-auto pushes to bottom */}
-              <div className="mt-8">
-                <button className={`w-full py-4 font-black rounded-xl font-cairo text-base transition-all ${
-                  tier.popular
-                    ? 'bg-black text-white hover:bg-gray-800'
-                    : 'bg-white text-black border-2 border-black hover:bg-black hover:text-white'
-                }`}>
-                  {tier.cta}
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* ========== MOBILE: Horizontal Scroll Snap ========== */}
+        {/* ========== MAIN CONTAINER ========== */}
+        {/* Mobile: Horizontal Snap Scroll | Desktop: 3-Column Grid */}
         <div 
-          className="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 px-4 pb-4 scrollbar-hide"
+          ref={scrollRef}
           onScroll={handleScroll}
+          className="
+            flex gap-4 overflow-x-auto snap-x snap-mandatory px-4 pb-8 scrollbar-hide
+            lg:grid lg:grid-cols-3 lg:gap-8 lg:overflow-visible lg:px-6 lg:pb-0
+          "
         >
           {tiers.map((tier, index) => (
             <div
-              key={tier.name}
-              className={`relative flex-shrink-0 min-w-[85vw] flex flex-col bg-white rounded-3xl p-6 border-2 snap-center ${
-                tier.popular ? 'border-black shadow-xl shadow-black/10' : 'border-gray-200'
-              } ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              key={tier.id}
+              className={`
+                /* ===== MOBILE: Fixed width, no shrink, snap center ===== */
+                w-[90vw] max-w-sm flex-shrink-0 snap-center
+                /* ===== DESKTOP: Full width in grid cell ===== */
+                lg:w-full lg:max-w-none
+                /* ===== CARD STRUCTURE: CSS Grid for perfect alignment ===== */
+                h-auto lg:h-full
+                bg-white rounded-2xl shadow-sm overflow-hidden
+                grid grid-rows-[auto_1fr_auto]
+                transition-all duration-500
+                ${tier.popular 
+                  ? 'border-2 border-black shadow-xl' 
+                  : 'border border-gray-200 hover:border-gray-300 hover:shadow-md'
+                }
+                ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
+              `}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              {tier.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="px-4 py-1.5 bg-black text-white text-xs font-bold rounded-full font-cairo">
+              {/* ========== ROW 1: HEADER (auto height) ========== */}
+              <div className="p-6 pb-4 text-center">
+                {/* Popular Badge */}
+                {tier.popular && (
+                  <div className="bg-black text-white text-xs font-bold py-1.5 px-4 rounded-full inline-block mb-4 font-cairo">
                     الأكثر طلباً
-                  </span>
-                </div>
-              )}
-
-              {/* Header */}
-              <div className="text-center mb-4">
-                <h3 className="text-lg font-black text-black mb-2 font-cairo">{tier.name}</h3>
+                  </div>
+                )}
+                
+                {/* Plan Name */}
+                <h3 className="text-xl font-black text-black font-cairo mb-3">
+                  {tier.name}
+                </h3>
+                
+                {/* Price */}
                 <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-4xl font-black text-black font-cairo">{tier.price}</span>
+                  <span className="text-5xl font-black text-black font-cairo">
+                    {tier.price}
+                  </span>
+                  {tier.price !== '0' && (
+                    <span className="text-base text-gray-500 font-cairo">ج.م</span>
+                  )}
                 </div>
+                
+                {/* Period */}
                 <p className="text-sm text-gray-500 font-cairo mt-1">{tier.period}</p>
-                <p className="text-xs text-gray-400 font-cairo mt-2">{tier.description}</p>
+                
+                {/* Description */}
+                <p className="text-xs text-gray-400 font-cairo mt-3 leading-relaxed">
+                  {tier.description}
+                </p>
               </div>
 
-              {/* Features */}
-              <ul className="space-y-3 flex-grow">
-                {tier.features.map((feature, i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      tier.popular ? 'bg-black' : 'bg-gray-300'
-                    }`}>
-                      <Icons.Check className="w-3 h-3 text-white" />
-                    </div>
-                    <span className="text-gray-700 font-cairo text-sm">{feature}</span>
-                  </li>
-                ))}
-              </ul>
+              {/* ========== ROW 2: FEATURES (1fr - takes remaining space) ========== */}
+              <div className="px-6 py-2">
+                <ul className="space-y-3">
+                  {tier.features.map((feature, i) => (
+                    <li key={i} className="flex items-center gap-3">
+                      <div className={`
+                        w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0
+                        ${tier.popular ? 'bg-black' : 'bg-gray-200'}
+                      `}>
+                        <Icons.Check className="w-3 h-3 text-white" />
+                      </div>
+                      <span className="text-gray-700 font-cairo text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-              {/* CTA Button */}
-              <div className="mt-6">
-                <button className={`w-full py-3.5 font-black rounded-xl font-cairo text-base transition-all ${
-                  tier.popular
-                    ? 'bg-black text-white hover:bg-gray-800'
+              {/* ========== ROW 3: CTA BUTTON (auto height - always at bottom) ========== */}
+              <div className="p-6 pt-4">
+                <button className={`
+                  w-full py-3 rounded-xl font-bold font-cairo text-base
+                  transition-all duration-200 active:scale-[0.98]
+                  ${tier.popular
+                    ? 'bg-black text-white hover:bg-gray-900'
                     : 'bg-white text-black border-2 border-black hover:bg-black hover:text-white'
-                }`}>
+                  }
+                `}>
                   {tier.cta}
                 </button>
               </div>
@@ -1155,14 +1152,20 @@ const PricingSection = () => {
           ))}
         </div>
 
-        {/* Mobile Dot Indicators */}
-        <div className="md:hidden flex justify-center gap-2 mt-4">
+        {/* Mobile Dot Indicators (Clickable Navigation) */}
+        <div className="lg:hidden flex justify-center gap-3 mt-2">
           {tiers.map((tier, index) => (
-            <div 
+            <button
               key={tier.id}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                activeSlide === index ? 'bg-black w-6' : 'bg-gray-300'
-              }`}
+              onClick={() => scrollToCard(index)}
+              className={`
+                h-2 rounded-full transition-all duration-300 
+                ${activeSlide === index 
+                  ? 'bg-black w-8' 
+                  : 'bg-gray-300 w-2 hover:bg-gray-400'
+                }
+              `}
+              aria-label={`Go to ${tier.name}`}
             />
           ))}
         </div>
@@ -1222,7 +1225,11 @@ const Footer = () => {
             © 2026 Booky Center. جميع الحقوق محفوظة.
           </p>
           <p className="text-sm text-gray-500 font-cairo">
-            جزء من سوق عالمي بقيمة <span className="text-white font-bold underline">627 مليار دولار</span>
+            بوكي سنتر
+            <br/>
+            ميعادك في جيبك بضغطة واحدة
+            <br/>
+            رقم التسجيل الضريبي 998-345-455
           </p>
         </div>
       </div>
