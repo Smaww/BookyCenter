@@ -1,51 +1,62 @@
-# Booky Center: Business Master Document
-## *The Unified Source of Truth for Business Foundation, Market Analysis & Operations*
-### Slogan: Your Life, One Tap | بضغطة واحدة.. ميعادك في جيبك
+# 📘 Booky Center: Business Architecture Master
 
-**Version:** 5.0 | **Date:** February 10, 2026  
-**Classification:** Strategic Foundation Document — Source of Truth  
+## *The Single Source of Truth — Project Bible*
+
+### Slogan: بضغطة واحدة.. ميعادك في جيبك | Your Life, One Tap
+
+**Version:** 6.0 | **Date:** February 14, 2026
+**Classification:** Master Reference Document — All teams MUST align to this file.
 **Author:** Product & Business Architecture Team
 
 ---
 
 ## Table of Contents
 
-1. [Executive Summary: The 'Magic Button' Concept](#1-executive-summary-the-magic-button-concept)
-2. [Egyptian Identity & Localization Strategy](#2-egyptian-identity--localization-strategy)
-3. [Global Market Intelligence (Oct 2025)](#3-global-market-intelligence-oct-2025)
-4. [Egypt's Digital Readiness (2026)](#4-egypts-digital-readiness-2026)
-5. [Problem-Solution-Market Matrix](#5-problem-solution-market-matrix)
-6. [Product Verticals (The Six Core Pillars)](#6-product-verticals-the-six-core-pillars)
-7. [Competitive Edge & Strategic Gap](#7-competitive-edge--strategic-gap)
-8. [Strategic Acquisition & Channels](#8-strategic-acquisition--channels)
-9. [The Mansoura Pilot Strategy](#9-the-mansoura-pilot-strategy)
-10. [User Subscription & Loyalty Model](#10-user-subscription--loyalty-model)
-11. [Revenue & Commission Model](#11-revenue--commission-model)
-12. [Operational Moats & Business Model](#12-operational-moats--business-model)
-13. [Key Metrics & Targets](#13-key-metrics--targets)
+1. [Project Vision (The "Why")](#1-project-vision-the-why)
+2. [The Project Dictionary (Unified Terminology)](#2-the-project-dictionary-unified-terminology)
+3. [Documentation Index (The Map)](#3-documentation-index-the-map)
+4. [Global Rules & Conventions](#4-global-rules--conventions)
+5. [The Six Sectors (Product Verticals)](#5-the-six-sectors-product-verticals)
+6. [Subscription Model (Client-Side)](#6-subscription-model-client-side)
+7. [Subscription Model (Merchant-Side)](#7-subscription-model-merchant-side)
+8. [The Rank System (Gamification)](#8-the-rank-system-gamification)
+9. [Booky Coins Economy (Loyalty)](#9-booky-coins-economy-loyalty)
+10. [Revenue & Commission Model](#10-revenue--commission-model)
+11. [No-Show Protection (Deposit System)](#11-no-show-protection-deposit-system)
+12. [Egyptian Identity & Localization](#12-egyptian-identity--localization)
+13. [Market Intelligence & Competitive Edge](#13-market-intelligence--competitive-edge)
+14. [The Mansoura Pilot Strategy](#14-the-mansoura-pilot-strategy)
+15. [Key Metrics & Targets](#15-key-metrics--targets)
+16. [Glossary of Business Acronyms](#16-glossary-of-business-acronyms)
 
 ---
 
-## 1. Executive Summary: The 'Magic Button' Concept
+## 1. Project Vision (The "Why")
 
-### What is Booky Center?
+### Mission
 
-**Booky Center is Egypt's first All-in-One Booking Super App** — a unified platform that consolidates fragmented service bookings across six major verticals into a single, seamless digital experience.
+**Empowering Egypt's fragmented micro-service economy with Uber-like technology** — giving every barber, every football pitch, every plumber a digital storefront, and giving every Egyptian a single button to book them all.
 
-We call it the **"Magic Button"** because it transforms a frustrating, hour-long process into a 30-second experience.
+### Core Value Equation
 
-### Our Mission: From 'Big Mess' to 'Magic Shelf'
+| For the Client (العميل) | For the Merchant (التاجر) |
+|--------------------------|----------------------------|
+| **Simplicity** — Find, book, and pay any service in under 60 seconds. | **Growth** — Get discovered by thousands, protect revenue, and scale with data. |
 
-| The Big Mess (Today) | The Magic Shelf (Booky Center) |
-|----------------------|--------------------------------|
+### The "Magic Button" Concept
+
+Booky Center is **Egypt's first All-in-One Booking Super App**. We consolidate six fragmented service verticals into a single, seamless digital experience.
+
+| The Problem Today | The Booky Center Solution |
+|-------------------|---------------------------|
 | Search Facebook for 30 minutes | Everything organized in one app |
 | Send 10 DMs asking "price?" | All prices displayed upfront |
 | Call and no one answers | See available times instantly |
 | Show up and it's double-booked | Your slot is guaranteed |
 | Cash only, no receipts | Pay by card, wallet, or cash |
-| No way to trust reviews | Only verified customers can review |
+| No way to trust reviews | Only verified Clients can review |
 
-### The Transformation in Numbers
+### The Transformation
 
 | Traditional Journey | Magic Button Journey |
 |---------------------|----------------------|
@@ -55,743 +66,331 @@ We call it the **"Magic Button"** because it transforms a frustrating, hour-long
 | No price transparency | Real-time pricing & availability |
 | Zero booking confirmation | Instant digital confirmation |
 
-### The Vision
-
 > **"Booky Center puts Egypt's entire service economy at your fingertips — book anything, anywhere, anytime with one tap."**
 
 ---
 
-## 2. Egyptian Identity & Localization Strategy
+## 2. The Project Dictionary (Unified Terminology)
 
-### Brand Voice & Positioning
+> **⚠️ MANDATORY:** Every document, user story, API contract, database column, UI label, and code comment in the Booky Center project **MUST** use the terms defined below. No synonyms. No exceptions.
 
-Booky Center speaks to Egyptians in a **professional yet friendly, relatable voice** that respects local culture while embracing modern digital convenience. Our communication bridges the formal and informal — trustworthy like a bank, approachable like a friend.
+### 2.1 Core Entities
 
-### Core Brand Principles (Egyptian Arabic Context)
+| # | Official Term (EN) | Official Term (AR) | Definition | ❌ NEVER Use |
+|---|--------------------|--------------------|------------|--------------|
+| 1 | **Client** | **العميل** | The end-user who searches for and books services on the platform. This is the demand side of the marketplace. | ~~Customer~~, ~~User~~, ~~Consumer~~, ~~Buyer~~ |
+| 2 | **Merchant** | **التاجر** | The service provider who lists their business, manages availability, and fulfills bookings. This is the supply side of the marketplace. | ~~Vendor~~, ~~Provider~~, ~~Partner~~, ~~Seller~~, ~~Business Owner~~ |
+| 3 | **Service** | **الخدمة** | A specific bookable item offered by a Merchant (e.g., "Haircut", "Football Pitch 1hr", "Plumbing Visit"). Has a price, duration, and optional deposit. | ~~Product~~, ~~Offering~~, ~~Item~~ |
+| 4 | **Sector** | **القطاع** | One of the 6 top-level service categories that organize the marketplace (e.g., Sports, Beauty). Every Merchant belongs to exactly one Sector. | ~~Category~~, ~~Vertical~~, ~~Pillar~~, ~~Industry~~ |
+| 5 | **Booking** | **الحجز** | The core transactional unit — a confirmed reservation linking a Client to a Merchant's Service at a specific time slot. | ~~Reservation~~, ~~Appointment~~, ~~Order~~ |
+| 6 | **Booky Coins** | **عملة بوكي** | The universal loyalty micro-currency. Earned on bookings, redeemable across all Sectors. Non-transferable, non-cashable. | ~~Points~~, ~~Credits~~, ~~Rewards~~, ~~Tokens~~ |
 
-| Principle | Description | Application |
-|-----------|-------------|-------------|
-| **Professional Warmth** | Formal enough to trust, friendly enough to engage | "إحنا معاك في كل خطوة" |
-| **Local Relevance** | Speaks the language of the street authentically | Egyptian Arabic (عامية مصرية) in marketing |
-| **Cultural Sensitivity** | Respects traditions while driving digital adoption | Family-friendly, community-focused messaging |
-| **Aspirational Accessibility** | Premium experience accessible to all | "الباشا" tier for everyone who wants it |
+### 2.2 System Entities
 
-### Primary Slogan
+| # | Official Term (EN) | Official Term (AR) | Definition | ❌ NEVER Use |
+|---|--------------------|--------------------|------------|--------------|
+| 7 | **Slot** | **الموعد المتاح** | A specific time window on a Merchant's calendar that can be booked. | ~~Time~~, ~~Appointment~~, ~~Window~~ |
+| 8 | **Deposit** | **العربون** | A partial upfront payment required to confirm a Booking (protects Merchants from no-shows). | ~~Prepayment~~, ~~Down Payment~~, ~~Advance~~ |
+| 9 | **Subscription Tier** | **باقة الاشتراك** | The Client's paid plan level (Free / Premium / VIP). Controls coin multipliers and feature access. | ~~Plan~~, ~~Package~~, ~~Membership~~ |
+| 10 | **Rank** | **الرتبة** | The Client's earned loyalty level (Newbie / Regular / Pro / Pasha). Based on completed Bookings and Reviews. Separate from Subscription. | ~~Level~~, ~~Tier~~ (when referring to Rank), ~~Grade~~ |
+| 11 | **Merchant Dashboard** | **لوحة تحكم التاجر** | The SaaS panel Merchants use to manage services, calendar, bookings, analytics, and payouts. | ~~Admin Panel~~, ~~Backend~~, ~~Portal~~ |
+| 12 | **Feed** | **المجتمع** | The social marketplace timeline on the Client Home Screen showing reviews, merchant updates, and system highlights. | ~~Timeline~~, ~~Stream~~, ~~Wall~~ |
+| 13 | **Story** | **العرض السريع** | A 24-hour expiring flash offer posted by a Merchant, displayed in the circular Stories bar. | ~~Offer~~, ~~Flash~~, ~~Deal~~ (when referring to the UI component) |
+| 14 | **Inquiry** | **الاستفسار** | A private, context-aware chat session between a Client and a Merchant before booking. | ~~Chat~~, ~~Message~~, ~~DM~~ |
 
-> **بضغطة واحدة.. ميعادك في جيبك**
->
-> *"One tap... your appointment is in your pocket."*
+### 2.3 Naming Conventions in Code
 
-This slogan captures:
-- **Simplicity** — "بضغطة واحدة" (one tap)
-- **Ownership** — "ميعادك" (your appointment)
-- **Convenience** — "في جيبك" (in your pocket, always with you)
+| Context | Convention | Example |
+|---------|-----------|---------|
+| **Database columns** | `snake_case` | `client_id`, `merchant_id`, `booking_status` |
+| **TypeScript interfaces** | `PascalCase` | `ClientProfile`, `MerchantProfile`, `BookingStatus` |
+| **API endpoints** | `kebab-case` nouns | `/clients/me`, `/merchants/:id`, `/bookings` |
+| **React components** | `PascalCase` | `ClientHome`, `MerchantDashboard`, `FeedCard` |
+| **Enum values** | `UPPER_SNAKE_CASE` | `HEALTH_BEAUTY`, `CANCELLED_BY_CLIENT` |
 
-### Secondary Slogans & Taglines
-
-| Context | Arabic | English Translation |
-|---------|--------|---------------------|
-| Hero Section | بضغطة واحدة.. ميعادك في جيبك | One tap... your appointment is in your pocket |
-| User CTA | احجز ميعادك دلوقتي | Book your appointment now |
-| Merchant CTA | كبر شغلك وانضم لينا | Grow your business and join us |
-| Value Proposition | احجز أي حاجة، في أي وقت، من أي مكان | Book anything, anytime, anywhere |
-| Trust Statement | +15,000 بيزنس موثوق | +15,000 trusted businesses |
-
-### Localized Service Pillar Names (The Six Verticals)
-
-| English | Arabic (Local) | Colloquial Context |
-|---------|----------------|-------------------|
-| Sports | ملاعب وصالات | Football pitches, gyms, sports facilities |
-| Health & Beauty | جمال وصحة | Barbers, salons, spas, clinics |
-| Entertainment | خروجات وعيلة | Family outings, kids activities, restaurants |
-| Home Services | خدمات بيت | Plumbers, electricians, cleaners |
-| Professional | تعليم وشغل | Tutors, coworking, photographers |
-| Events | مناسبات | Weddings, parties, corporate events |
-
-### Localized Subscription Tier Names
-
-| Tier | Arabic Name | Meaning | Personality |
-|------|-------------|---------|-------------|
-| **Free** | باقة المستكشف | The Explorer Package | Curious, trying out, discovering |
-| **Premium** | باقة اللي فاهمها | The "Gets It" Package | Smart, savvy, understands value |
-| **VIP** | باقة الباشا | The Pasha Package | Elite, premium, full experience |
-
-### Mansoura Pilot: Hyper-Local Marketing Strategy
-
-The **Mansoura Pilot Phase** will deploy **hyper-local Egyptian Arabic marketing** to build authentic trust with the first 50 vendors. This is critical for:
-
-| Strategy Element | Implementation |
-|------------------|----------------|
-| **Local Dialect** | Mansoura-specific expressions and references |
-| **Community Focus** | "جيرانك بيحجزوا عندنا" (Your neighbors book with us) |
-| **Vendor Stories** | Real testimonials from local business owners |
-| **Street-Level Presence** | QR codes in local shops, university areas |
-| **WhatsApp Integration** | Support via WhatsApp (preferred local channel) |
-
-**First 50 Vendors Target:**
-- 15 Sports venues (ملاعب)
-- 15 Barbers/Salons (حلاقين وكوافيرات)
-- 10 Home Service providers (سباكين وكهربائيين)
-- 5 Tutors/Study spaces (مدرسين ومكاتب)
-- 5 Restaurants/Cafes (مطاعم وكافيهات)
-
-**Key Message for Vendors:**
-> "إحنا مش بس أبلكيشن، إحنا شريكك في النجاح. هنوصل ليك عملاء جداد كل يوم."
->
-> *"We're not just an app, we're your partner in success. We'll bring you new customers every day."*
+> **Key Migration Note:** The codebase currently uses `user` and `userId` in some places. These MUST be migrated to `client` / `clientId` during the next refactor sprint. API paths like `/users/me` become `/clients/me`.
 
 ---
 
-## 3. Global Market Intelligence (Oct 2025)
+## 3. Documentation Index (The Map)
 
-### The Opportunity is Massive — and Growing Fast
+> All documentation lives under `docs/`. This index provides the reading order and the purpose of every file.
 
-The online booking and reservation software market is experiencing explosive growth worldwide.
+### Phase 1: Strategy & Business Logic
 
-### Key Global Numbers
+| # | File | Purpose | Status |
+|---|------|---------|--------|
+| 1.1 | [`business_logic/01_LANDING_PAGE_STRATEGY.md`](business_logic/01_LANDING_PAGE_STRATEGY.md) | Pre-login gateway: visual identity, hero section, Service Galaxy, 5-second conversion rule, pain-killer section, merchant spotlight, social proof, footer. The Visitor → Client / Merchant funnel. | ✅ Complete |
+| 1.2 | [`business_logic/02_CLIENT_JOURNEY_LOGIC.md`](business_logic/02_CLIENT_JOURNEY_LOGIC.md) | Post-login Client experience: Smart Auth (OTP), Social Feed (Stories + Community), Discovery & Booking Engine (NLP search, Merchant profiles, real-time calendar), Gamification (Coins + Ranks), Checkout (3-step flow), Notifications, Data Models, Edge Cases. | ✅ Complete |
+| 1.3 | [`business_logic/03_MERCHANT_ONBOARDING_FLOW.md`](business_logic/03_MERCHANT_ONBOARDING_FLOW.md) | Merchant registration, identity verification, profile setup wizard, service catalog creation, calendar configuration, and activation rules. Two tracks: Digital Immigrants (offline → online) and Growth Seekers (social → platform). | 🔴 To Be Written |
+| 1.4 | [`business_logic/04_SUBSCRIPTION_LOYALTY_MATH.md`](business_logic/04_SUBSCRIPTION_LOYALTY_MATH.md) | Unified mathematical model for Booky Coins: earning rates (per-booking formula), tier multipliers (1x/2x/5x), redemption tiers, expiry rules, Rank progression thresholds, and subscription billing cycles (upgrade/downgrade/cancellation). | 🔴 To Be Written |
+| 1.5 | [`business_logic/05_PAYMENT_PAYOUT_GATEWAYS.md`](business_logic/05_PAYMENT_PAYOUT_GATEWAYS.md) | Payment integration rules: Vodafone Cash, InstaPay, Credit/Debit Card flows. Deposit collection, refund processing, cancellation penalties, Merchant payout schedules, platform fee deduction, and reconciliation logic. | 🔴 To Be Written |
 
-| Metric | Value | Significance |
-|--------|-------|--------------|
-| **Market Size (2025)** | $101 Billion | Current global market |
-| **Projected Size (2034)** | $627.4 Billion | 6x growth in 9 years |
-| **Growth Rate (CAGR)** | 22.5% | Faster than most tech sectors |
-| **Primary Driver** | Mobile-first solutions | Users demand phone-based booking |
+### Phase 2: User Stories
 
-### Three Global Trends Working in Our Favor
+| # | File | Purpose | Status |
+|---|------|---------|--------|
+| 2.1 | [`user_stories/US_VISITOR_LANDING.md`](user_stories/US_VISITOR_LANDING.md) | Stories for first-time Visitors: identity selection (Client vs Merchant), value proposition comprehension, conversion triggers, frictionless browsing (no login until payment). | 🔴 To Be Written |
+| 2.2 | [`user_stories/US_CLIENT_BOOKING.md`](user_stories/US_CLIENT_BOOKING.md) | Stories for the Client booking journey: search, filter, view Merchant profile, select Slot, confirm & pay Deposit, receive confirmation, re-book, cancel. | 🔴 To Be Written |
+| 2.3 | [`user_stories/US_MERCHANT_DASHBOARD.md`](user_stories/US_MERCHANT_DASHBOARD.md) | Stories for Merchant-side operations: manage Slots, view earnings, update profile, handle Booking requests, respond to Inquiries, view analytics. | 🔴 To Be Written |
+| 2.4 | [`user_stories/US_LOYALTY_REDEMPTION.md`](user_stories/US_LOYALTY_REDEMPTION.md) | Stories for the loyalty system: earning Booky Coins, checking balance, redeeming across Sectors, Rank progression, Subscription Tier upgrades. | 🔴 To Be Written |
 
-**1. Mobile-First, AI-Powered Booking**
-- Users expect to book everything from their smartphones
-- AI helps match users with the right service providers
-- Personalized recommendations increase bookings by 40%+
+### Phase 3: Technical Specifications
 
-**2. Embedded Finance is Becoming Standard**
-- **Deposits and flexible payments** are now expected features globally
-- This directly solves the **No-Show crisis** that costs businesses billions
-- BNPL (Buy Now, Pay Later) options increase conversion rates
+| # | File | Purpose | Status |
+|---|------|---------|--------|
+| 3.1 | [`technical_specs/DATABASE_SCHEMA_V1.md`](technical_specs/DATABASE_SCHEMA_V1.md) | Relational database design: table definitions (clients, merchants, services, bookings, payments, reviews, coins_ledger, notifications), relationships, constraints, indexes. | 🔴 To Be Written |
+| 3.2 | [`technical_specs/API_ENDPOINTS_OVERVIEW.md`](technical_specs/API_ENDPOINTS_OVERVIEW.md) | Full REST API contract: endpoint paths, HTTP methods, request/response schemas, authentication headers, error codes, pagination, rate limiting. | 🔴 To Be Written |
 
-**3. Super App Consolidation**
-- Users are tired of downloading multiple apps
-- Platforms offering **everything in one place** are winning
-- Cross-vertical loyalty programs create strong retention
+### Phase 4: Architecture (Future)
 
-### Global Super App Landscape in Egypt
-
-| Platform | Status in Egypt | Focus | Booky Advantage |
-|----------|-----------------|-------|-----------------|
-| WeChat | Not available | All | First-mover opportunity |
-| Grab | Not available | Transport/Food | Services gap |
-| Gojek | Not available | Multi-vertical | Localization |
-| Careem | Limited (Rides/Food) | Transport | Service expansion |
-| Yalla | Emerging | Social/Voice | Transaction layer |
-
-**Booky Center fills the gap** — no true booking super app exists in Egypt.
+| # | File | Purpose | Status |
+|---|------|---------|--------|
+| 4.1 | `architecture/SYSTEM_ARCHITECTURE.md` | High-level system diagram, technology stack, infrastructure, deployment strategy. | 🔴 Planned |
+| 4.2 | `architecture/SECURITY_MODEL.md` | Authentication flows, authorization rules, data encryption, GDPR-equivalent compliance. | 🔴 Planned |
 
 ---
 
-> **📚 Reference Citation:**  
-> *'Global Outlook 2025-2034: Reservation and Online Booking Software Market'*  
-> Published October 2025 by Research and Markets  
-> [Access Full Report](https://www.researchandmarkets.com/reports/6188366/reservation-online-booking-software-market#src-pos-4)
+## 4. Global Rules & Conventions
+
+> These rules apply to every document, every API, every UI screen, and every line of code.
+
+### 4.1 Core Constants
+
+| Rule | Value | Rationale |
+|------|-------|-----------|
+| **Currency** | EGP (Egyptian Pound, ج.م) | Egyptian market. All monetary values stored as integers (no floats). |
+| **Timezone** | Africa/Cairo (EET, UTC+2) | Egypt Standard Time. No DST since 2014. All timestamps stored as UTC, displayed as EET. |
+| **Primary Language (UI)** | Arabic (Egyptian Dialect, عامية مصرية) | Target audience. RTL layout. Cairo font family. |
+| **Secondary Language (UI)** | English | For brand elements, technical labels, and bilingual Merchants. |
+| **Documentation Language** | English | All internal docs, code comments, commit messages, and PR descriptions in English. |
+| **Code Language** | English | All variable names, function names, database columns, and API endpoints in English. |
+| **Phone Format** | E.164: `+201XXXXXXXXX` | Egyptian mobile: `+20 1[0125] XXX XXXX`. Primary authentication credential. |
+| **ID Format** | UUID v4 | All entity primary keys. |
+| **Timestamp Format** | ISO 8601 (UTC) | `"2026-02-14T15:00:00Z"` — converted to EET on display. |
+| **Booking ID Format** | `BK-YYMMDD-XXXX` | Human-readable reference. `BK-260214-0847`. |
+
+### 4.2 Authentication Rules
+
+| Rule | Value |
+|------|-------|
+| **Primary Auth** | Phone number + 4-digit OTP (SMS). No passwords. Ever. |
+| **OTP Expiry** | 120 seconds |
+| **OTP Resend Cooldown** | 60 seconds |
+| **Max OTP Attempts** | 3 per session, then 15-minute cooldown |
+| **Max OTPs per Phone/Hour** | 5 |
+| **OTP Fallback** | WhatsApp OTP if SMS fails after 30 seconds |
+| **Social Login** | Google and Facebook for **profile enrichment only** (name + photo import). NOT for authentication. |
+| **Account Types** | `client` or `merchant`. Set once at registration. Cannot be changed without support intervention. |
+
+### 4.3 UI/UX Design Principles
+
+| Principle | Rule |
+|-----------|------|
+| **Direction** | RTL (Right-to-Left) for all screens. |
+| **Font** | Cairo (Google Fonts) — professional Arabic typeface. |
+| **Color Palette** | Pure White `#FFFFFF`, Bold Black `#000000`, Signal Red `#E63946`, Slate Grey `#6B7280`. |
+| **Spacing** | 8px grid system. |
+| **Mobile-First** | Design for mobile, scale up to desktop. Breakpoints: <768 / 768-1023 / 1024-1279 / ≥1280. |
+| **Browsing Without Login** | Visitors can browse all Sectors, search, view Merchant profiles, and check availability WITHOUT creating an account. Login is triggered ONLY at "Confirm & Pay". |
+| **3-Tap Booking Rule** | Select → Confirm/Pay → Done. Maximum 3 taps from Merchant profile to confirmed Booking. |
 
 ---
 
-## 4. Egypt's Digital Readiness (2026)
-
-### Egypt is Ready for Booky Center
-
-The local market conditions are perfectly aligned for a booking super app launch.
-
-### Digital Infrastructure Overview
-
-| Metric | 2026 Value | YoY Growth | Significance |
-|--------|------------|------------|--------------|
-| **Internet Users** | 98.2 Million | +4.2% | 82.7% population online |
-| **Mobile Connections** | 121 Million | +6.8% | 102% of population (multi-SIM) |
-| **Mobile Speed** | +120% surge | Transformational | Video-first UX now viable |
-| **Smartphone Penetration** | 78% | +8% | App-ready audience |
-| **E-commerce Users** | 52 Million | +15% | Digital payment familiarity |
-| **Social Media Users** | 89 Million | +7% | Proven digital engagement |
-
-### The Demographic Advantage: Youth Dividend
-
-**Median Age: 24.5 Years** — Half of Egypt is under 25.
-
-| Age Group | % of Population | Digital Behavior |
-|-----------|-----------------|------------------|
-| 18-24 (Digital Natives) | 28% | Zero onboarding friction |
-| 25-34 (Early Adopters) | 24% | High engagement potential |
-| 35-44 (Digital Migrants) | 15% | Growing comfort with apps |
-| 45-54 (Late Majority) | 11% | Need simple UX |
-| 55+ (Traditional) | 22% | Slower adoption |
-
-### The 18-34 "Early Adopter" Segment
-
-This is our primary target market:
-
-| Attribute | Value | Strategic Relevance |
-|-----------|-------|---------------------|
-| Population Size | 52% of total | Majority market |
-| Digital Fluency | 94% smartphone usage | Zero onboarding friction |
-| App Usage | 4.2 hours daily | High engagement potential |
-| Service Spending | ₤3,200/month average | Strong purchasing power |
-| Payment Preference | 68% prefer digital | Reduces cash friction |
-| Discovery Method | 78% via social media | Clear acquisition channel |
-
-### Why 'Super Apps' Beat 'App Fatigue'
-
-Egyptian smartphone users have reached **App Fatigue**:
-
-| The Problem | The Number |
-|-------------|------------|
-| Average apps installed | 67 |
-| Apps used weekly | 12 |
-| Apps used daily | Only 5 |
-| Apps deleted within 72 hours | 28% |
-
-### Consumer Preference for Consolidation
-
-| Behavior Trend | Percentage |
-|----------------|------------|
-| Prefer "all-in-one" apps | 73% |
-| Would delete single-purpose apps if Super App available | 61% |
-| Willing to pay premium for convenience | 44% |
-| Trust established platforms for new services | 68% |
-
-**The Solution:** Users want ONE app that does MANY things. That's Booky Center.
-
----
-
-> **📚 Reference Citation:**  
-> *'Digital 2026: Egypt'* — Published by DataReportal  
-> [Access Full Report](https://datareportal.com/reports/digital-2026-egypt)
-
----
-
-## 5. Problem-Solution-Market Matrix
-
-### Total Addressable Market (TAM)
-
-| Vertical | Market Size (Egypt 2026) |
-|----------|--------------------------|
-| Sports & Fitness | ₤ 8.5 Billion |
-| Health & Wellness | ₤ 15.2 Billion |
-| Beauty & Personal Care | ₤ 12.8 Billion |
-| Home Services | ₤ 22.4 Billion |
-| Professional Services | ₤ 18.6 Billion |
-| Events & Entertainment | ₤ 9.3 Billion |
-| **TOTAL TAM** | **₤ 86.8 Billion (~$2.8B USD)** |
-
-**Serviceable Addressable Market (SAM):** ₤ 28.4 Billion (32.7% digitally addressable)  
-**Serviceable Obtainable Market (SOM) Year 1:** ₤ 850 Million (3% penetration target)
-
-### The 9 Validated Pain Points
-
-Every day, millions of Egyptians face these frustrations. **Booky Center solves all of them.**
-
-| # | Pain Point | The Problem | Booky Solution | Target Market | Realism |
-|---|------------|-------------|----------------|---------------|---------|
-| **1** | **Search** | No central place to find services | **Unified search** with filters | 98.2M users | Critical |
-| **2** | **Calling** | Phone lines busy, no answer | **Real-time availability** | 42M urban 18-45 | Critical |
-| **3** | **Pricing** | "Price in DM" culture | **Mandatory price display** | 65M+ price-sensitive | Very High |
-| **4** | **Trust** | Fake reviews everywhere | **Verified reviews** (bookers only) | 35M+ quality seekers | Very High |
-| **5** | **Access** | Services concentrated in Cairo/Giza | **Hyper-local discovery** | 45M underserved | High |
-| **6** | **No-Show** | 30% don't show up; ₤2.5B annual loss | **Deposit system** | 150K+ businesses | Critical |
-| **7** | **Overbooking** | Manual scheduling = double-bookings | **Smart calendar sync** | 150K+ businesses | Very High |
-| **8** | **Loyalty** | Customers never return | **Booky Coins** cross-vertical | 25M potential | High |
-| **9** | **Payment** | Cash-only friction | **Multi-payment options** | 38M+ digital adopters | High |
-
-### Impact Summary
-
-| For Customers | For Businesses |
-|---------------|----------------|
-| Find services in seconds, not hours | Get discovered by thousands of new customers |
-| Know the price before you book | Protect revenue with deposit system |
-| Pay however you want | Get paid directly to your account |
-| Trust real reviews | Build reputation with verified ratings |
-| Earn rewards on every booking | Turn one-time visitors into loyal customers |
-
----
-
-## 6. Product Verticals (The Six Core Pillars)
-
-Booky Center is organized into **six strategic categories**, each serving a specific role in user acquisition and retention.
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    BOOKY CENTER                         │
-│              "Your Life, One Tap Away"                  │
-├─────────────────────────────────────────────────────────┤
-│  SPORTS  │  BEAUTY  │  FUN   │  HOME  │  WORK  │ EVENT │
-│   Hook   │ Retention│ Viral  │ Solver │Utility │Ticket │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-### 🏃 Pillar 1: Sports — *The Hook*
-
-**Strategic Role:** Primary user acquisition engine — high frequency, social sharing, viral loops
-
-**Market Context:**
-- Football is Egypt's national obsession (35M+ active players)
-- Padel tennis experiencing explosive 400% growth
-- Gym culture mainstream among 18-35 demographic
-
-| Service Category | Booking Type | Frequency |
-|------------------|--------------|-----------|
-| Football Pitches (5/7/11-a-side) | Hourly slots | 2-3x/week |
-| Padel Courts & Lessons | Hourly + Package | 1-2x/week |
-| Gyms & Personal Training | Pass/Session | Daily |
-| Swimming Pools & Lessons | Session | 1-2x/week |
-| Tennis & Basketball Courts | Hourly | 1x/week |
-| Martial Arts & Yoga | Class booking | 2x/week |
-
-**Launch Targets:**
-- Partners: 500+ venues
-- Avg. Booking Value: ₤150-350
-- Monthly Active Bookers (Month 6): 150,000
-
----
-
-### 💆 Pillar 2: Health & Beauty — *The Retention Engine*
-
-**Strategic Role:** Highest retention vertical — recurring appointments, relationship-based
-
-**Market Context:**
-- Beauty industry growing 18% annually
-- Medical tourism hub potential
-- Self-care culture accelerating
-
-| Service Category | Booking Type | Frequency |
-|------------------|--------------|-----------|
-| Hair Salons & Barbershops | Appointment | 1-2x/month |
-| Spas & Massage | Session | 1-2x/month |
-| Nail Studios | Appointment | 2x/month |
-| Dermatology & Skincare | Appointment | As needed |
-| Dental & Physiotherapy | Appointment/Package | As needed |
-| Mental Health & Nutrition | Recurring | Weekly/Monthly |
-
-**Launch Targets:**
-- Partners: 2,000+ providers
-- Avg. Booking Value: ₤200-800
-- Customer Lifetime Value: ₤8,500 (18-month)
-- Retention Rate: 72% (12-month)
-
----
-
-### 🎉 Pillar 3: Entertainment — *The Viral Engine*
-
-**Strategic Role:** Social sharing catalyst — group bookings, special occasions, FOMO driver
-
-**Market Context:**
-- Experience economy booming among youth
-- Social media sharing drives discovery
-- Group activities trending
-
-| Service Category | Booking Type | Frequency |
-|------------------|--------------|-----------|
-| Kids Play Areas & Parties | Group/Event | Monthly |
-| Restaurants & Reservations | Table booking | 2x/month |
-| Escape Rooms & Laser Tag | Group booking | Monthly |
-| Bowling & Gaming Lounges | Hourly/Event | Weekly |
-| Karting & Adventure Parks | Session | Monthly |
-| Trampoline Parks & VR | Session/Event | Monthly |
-
-**Launch Targets:**
-- Partners: 300+ venues
-- Avg. Booking Value: ₤250-600
-- Group Booking Rate: 78%
-- Social Share Rate: 45%
-
----
-
-### 🔧 Pillar 4: Home Services — *The Problem Solver*
-
-**Strategic Role:** Utility-driven engagement — high urgency, essential services, trust builder
-
-**Market Context:**
-- Fragmented market with zero standardization
-- Trust is the #1 barrier to adoption
-- Massive underserved suburban demand
-
-| Service Category | Booking Type | Frequency |
-|------------------|--------------|-----------|
-| Cleaning (Regular/Deep) | Recurring/One-time | Weekly-Monthly |
-| Plumbing & Electrical | On-demand/Scheduled | As needed |
-| AC Services | Seasonal/Emergency | Quarterly |
-| Appliance Repair | On-demand | As needed |
-| Painting & Carpentry | Project-based | Annually |
-| Pest Control & Moving | Scheduled/One-time | As needed |
-
-**Launch Targets:**
-- Partners: 5,000+ verified professionals
-- Avg. Booking Value: ₤300-1,500
-- Repeat Customer Rate: 68%
-- Trust Score: 5-star verified completion
-
----
-
-### 📚 Pillar 5: Professional Services — *The Utility Play*
-
-**Strategic Role:** B2B crossover — professional necessity, recurring revenue, business accounts
-
-**Market Context:**
-- Gig economy growing 25% annually
-- SMEs seeking digital solutions
-- Professional trust verification critical
-
-| Service Category | Booking Type | Frequency |
-|------------------|--------------|-----------|
-| Tutoring (Academic/Languages) | Recurring | Weekly |
-| Study Spaces & Coworking | Session/Membership | Weekly |
-| Photography & Videography | Project booking | As needed |
-| Legal & Accounting | Appointment | As needed |
-| IT Support & Consulting | On-demand | As needed |
-| Translation & Design | Project-based | As needed |
-
-**Launch Targets:**
-- Partners: 3,000+ verified professionals
-- Avg. Booking Value: ₤500-5,000
-- B2B Accounts: 10,000 SMEs (Year 1)
-- Verification Rate: 100%
-
----
-
-### 🎊 Pillar 6: Events & Celebrations — *The High-Ticket Play*
-
-**Strategic Role:** Revenue maximizer — high transaction value, seasonal spikes, brand partnerships
-
-**Market Context:**
-- Concert and festival culture exploding
-- Sports events driving massive engagement
-- Wedding industry worth ₤15B+ annually
-
-| Service Category | Booking Type | Frequency |
-|------------------|--------------|-----------|
-| Party Halls & Wedding Venues | Package booking | As needed |
-| Concerts & Sports Events | Ticket purchase | Monthly |
-| Photographers & DJs | Event booking | As needed |
-| Catering Services | Package | As needed |
-| Corporate Events & Conferences | Registration | Quarterly |
-| Kids Parties & Camps | Booking | Seasonally |
-
-**Launch Targets:**
-- Partners: 500+ venues & organizers
-- Avg. Transaction Value: ₤400-15,000
-- Peak Season Multiplier: 3.5x
-- Commission Rate: 8-15%
-
----
-
-### The Strategic User Journey
+## 5. The Six Sectors (Product Verticals)
+
+> Every Merchant and every Service belongs to exactly ONE Sector. These are the canonical names used everywhere.
+
+| # | Sector ID | English Name | Arabic Name (Official) | Icon | Strategic Role | Launch Target |
+|---|-----------|--------------|------------------------|------|----------------|---------------|
+| 1 | `sports` | **Sports & Fitness** | **ملاعب ورياضة** | Trophy | 🪝 **The Hook** — High frequency, viral loops, user acquisition engine | 500+ Merchants |
+| 2 | `health_beauty` | **Health & Beauty** | **صحة وجمال** | Scissors | 🔁 **Retention Engine** — Recurring appointments, highest LTV | 2,000+ Merchants |
+| 3 | `entertainment` | **Entertainment** | **خروجات وترفيه** | Gamepad | 📣 **Viral Engine** — Group bookings, social sharing, FOMO | 300+ Merchants |
+| 4 | `home_services` | **Home Services** | **خدمات منزلية** | Wrench | 🔧 **Problem Solver** — Urgency-driven, trust-critical | 5,000+ Merchants |
+| 5 | `education` | **Education & Work** | **تعليم ومساحات عمل** | GraduationCap | ⚙️ **Utility Play** — B2B crossover, professional recurring | 3,000+ Merchants |
+| 6 | `events` | **Events & Celebrations** | **مناسبات وأفراح** | Gift | 💎 **High-Ticket Play** — Revenue maximizer, seasonal spikes | 500+ Merchants |
+
+### Sector Sub-Services (Examples)
+
+| Sector | Sub-Services |
+|--------|-------------|
+| Sports & Fitness | Football Pitches, Padel Courts, Gyms, Swimming, Tennis, Martial Arts |
+| Health & Beauty | Barbers, Salons, Spas, Dermatology, Dental, Mental Health |
+| Entertainment | Kids Play Areas, Restaurants, Escape Rooms, Bowling, VR, Karting |
+| Home Services | Cleaning, Plumbing, Electrical, AC, Painting, Pest Control |
+| Education & Work | Tutoring, Coworking, Photography, Legal, IT Support, Translation |
+| Events & Celebrations | Venues, Concerts, Photography, Catering, Corporate Events, Camps |
+
+### Strategic Flow
 
 ```
 ACQUISITION ──────────► RETENTION ──────────► EXPANSION
 
-   Sports              Health & Beauty         Home Services
-   (Hook)               (Retention)           (Problem Solver)
+   Sports                Health & Beauty         Home Services
+   (Hook)                (Retention)             (Problem Solver)
      │                       │                       │
      ▼                       ▼                       ▼
-Entertainment           Professional              Events
-   (Viral)               (Utility)             (High-Ticket)
+ Entertainment           Education & Work          Events
+   (Viral)               (Utility)                (High-Ticket)
 ```
 
 ---
 
-## 7. Competitive Edge & Strategic Gap
+## 6. Subscription Model (Client-Side)
 
-### Competitive Feature Matrix
+> These are the plans a **Client** can subscribe to. Separate from Merchant subscriptions (§7) and Ranks (§8).
 
-| Feature | **Booky Center** | Vezeeta | Malaeb | Filkhedma | Social Media |
-|---------|------------------|---------|--------|-----------|--------------|
-| **Verticals Covered** | 6 (All) | 1 (Health) | 1 (Sports) | 1 (Home) | 0 (Discovery) |
-| **Real-time Availability** | ✅ Full | ✅ Partial | ✅ Yes | ❌ No | ❌ No |
-| **Instant Booking** | ✅ Yes | ✅ Yes | ✅ Yes | ⚠️ Request-based | ❌ No |
-| **Price Transparency** | ✅ Mandatory | ✅ Yes | ⚠️ Partial | ⚠️ Quote-based | ❌ No |
-| **Verified Reviews** | ✅ Booking-verified | ✅ Yes | ⚠️ Limited | ⚠️ Limited | ⚠️ Fake prevalent |
-| **No-Show Protection** | ✅ Deposit system | ❌ No | ⚠️ Limited | ❌ No | ❌ No |
-| **Loyalty Program** | ✅ Cross-vertical | ❌ Single | ❌ No | ❌ No | ❌ No |
-| **Multi-Payment** | ✅ Card/Wallet/BNPL | ✅ Card/Cash | ⚠️ Limited | ❌ Cash only | ❌ Cash only |
-| **Merchant Dashboard** | ✅ Full SaaS | ⚠️ Basic | ⚠️ Basic | ❌ No | ❌ No |
-| **Hyper-localization** | ✅ Neighborhood | ⚠️ City | ⚠️ City | ⚠️ City | ⚠️ Limited |
-| **Group Booking** | ✅ Native | ❌ No | ✅ Yes | ❌ No | ❌ No |
-| **B2B/Corporate** | ✅ Yes | ⚠️ Limited | ⚠️ Limited | ❌ No | ❌ No |
-
-### Competitor Deep-Dive
-
-| Competitor | Strengths | Weaknesses | Their Moat | Our Kill Zone |
-|------------|-----------|------------|------------|---------------|
-| **Vezeeta** | First-mover healthcare, 5M+ users, brand trust | Single-vertical, no cross-selling | Doctor network relationships | Cross-vertical LTV capture |
-| **Malaeb** | Sports-focused UX, venue network, group booking | Limited to football/padel, basic tools | Football venue relationships | Full sports + adjacent verticals |
-| **Filkhedma** | Pioneer in home services, worker verification | Request-based, cash-only, poor UX | Blue-collar workforce | Instant booking + digital payments |
-| **Social Media** | Massive reach, visual discovery, free | No booking, DM chaos, fake reviews | User attention | Convert discovery to transaction |
-
-### Our 4 Strategic 'Kill Zones'
-
-**Kill Zone 1: Cross-Vertical Customer Lifetime Value**
-
-> A Vezeeta user booking a doctor will also need a barber, a cleaner, and a football pitch. Booky captures **ALL** these transactions.
-
-| Competitor | Can Capture | Booky Center |
-|------------|-------------|--------------|
-| Vezeeta | Doctor visit only | Doctor + Barber + Cleaner + Football + More |
-| Malaeb | Football only | All sports + fitness + entertainment |
-| Filkhedma | Plumber only | All home services + professional |
-
-**Kill Zone 2: No-Show Financial Protection**
-
-> The No-Show crisis costs Egyptian businesses **₤2.5 Billion annually**. Booky's deposit system reduces no-shows from 30% to under 5%.
-
-**Kill Zone 3: Unified Loyalty Program**
-
-> "Booky Coins" work across ALL categories. Book a gym session, earn coins. Redeem them at a spa. No competitor offers this.
-
-**Kill Zone 4: Hyper-Localization**
-
-> Competitors work at city level ("Salons in Cairo"). Booky works at **neighborhood level** ("Salons near Degla Club in Maadi"). 10x better relevance.
-
----
-
-## 8. Strategic Acquisition & Channels
-
-### Channel Prioritization Matrix
-
-| Channel | Users (Egypt 2026) | Role | Priority | Budget |
-|---------|-------------------|------|----------|--------|
-| **Facebook** | 51.6 Million | Mass Awareness | 🥇 Primary | 35% |
-| **TikTok** | 48.8 Million | Growth Engine | 🥇 Primary | 30% |
-| **Instagram** | 21.7 Million | Visual Conversion | 🥈 Secondary | 20% |
-| **Google** | Intent-based | Intent Capture | 🥈 Secondary | 10% |
-| **Referral** | Organic | Viral Loops | 🥉 Tertiary | 5% |
-
-### Channel Strategy
-
-**Facebook (51.6M Users) — Mass Awareness**
-- Highest reach across ALL demographics
-- Strong in 25-45 age group (decision-makers)
-- Tactics: Carousel Ads, Video Ads, Lead Gen Forms, Community Groups
-- KPIs: CTR > 2.5%, VTR > 25%, CPL < ₤15, ROAS > 4x
-
-**TikTok (48.8M Users) — Growth Engine**
-- Fastest growing platform (+45% YoY)
-- Dominant in 18-30 "Early Adopter" segment
-- Tactics: Creator Partnerships, Hashtag Challenges, Spark Ads
-- Content Pillars: "Booky Wins", "Hidden Gems", "Booking Fails", "Merchant Stories"
-
-**Instagram (21.7M Users) — Visual Conversion**
-- Highest intent for beauty, lifestyle, events
-- Strong visual discovery and shopping features
-- Tactics: Reels, Stories, Influencer Collabs, IG Shopping
-
-### Channel-Vertical Alignment
-
-| Vertical | Primary Channel | Secondary Channel | Content Type |
-|----------|-----------------|-------------------|--------------|
-| Sports | TikTok | Facebook Groups | Action clips, challenges |
-| Health & Beauty | Instagram | TikTok | Transformations, tutorials |
-| Entertainment | TikTok | Instagram | Experience teasers, FOMO |
-| Home Services | Facebook | Google | Trust content, before/after |
-| Professional | Facebook | LinkedIn | Testimonials, expertise |
-| Events | Instagram | TikTok | Highlights, announcements |
-
----
-
-## 9. The Mansoura Pilot Strategy
-
-### Why Mansoura? The Perfect Launchpad
-
-**Mansoura** is selected as Booky Center's **Pilot Zone** for strategic reasons:
-
-| Factor | Mansoura Advantage |
-|--------|-------------------|
-| **Population** | 1.5M+ in greater metropolitan area |
-| **Digital Literacy** | High university population = tech-savvy users |
-| **Commercial Density** | Concentrated business districts |
-| **Competition** | Low penetration by existing booking apps |
-| **Cost Efficiency** | Lower CAC than Cairo/Alexandria |
-| **Scalability** | Proven model can replicate to other Delta cities |
-
-### The Cluster Approach: Building Service Density
-
-Instead of spreading thin across the entire city, we focus on **three key neighborhoods** to create **Service Density** — where users can find multiple service options within walking distance.
-
-| Cluster | Profile | Target Services |
-|---------|---------|-----------------|
-| **University District** | Students, young professionals, high digital adoption | Sports, Tutoring, Barbers, Cafes |
-| **Turiel** | Families, middle-class, service-heavy | Beauty, Home Services, Kids Activities |
-| **Al-Mashaya (Downtown)** | Commercial hub, high foot traffic | Restaurants, Events, Professional Services |
-
-### Two-Sided Merchant Acquisition
-
-We target **two categories of merchants** with different value propositions:
-
-#### Category A: Digital Immigrants (Offline → Online)
-
-**Profile:** Traditional vendors with zero digital presence
-
-| What They Need | What Booky Provides |
-|----------------|---------------------|
-| Professional photos | Free photo shoot on onboarding |
-| Digital menu/pricing | Profile setup assistance |
-| Online visibility | Featured in local discovery |
-| Booking system | Full SaaS dashboard |
-| Payment processing | Vodafone Cash / InstaPay integration |
-
-**Pitch:** *"We build your digital identity from scratch — free."*
-
-#### Category B: Growth Seekers (Active → Accelerated)
-
-**Profile:** Vendors already active on social media, seeking more customers
-
-| What They Need | What Booky Provides |
-|----------------|---------------------|
-| More customers | Boosted visibility in app |
-| Better conversion | Instant booking (no DM back-and-forth) |
-| No-show protection | Deposit system |
-| Customer retention | Loyalty program brings repeat bookings |
-| Business insights | Analytics dashboard |
-
-**Pitch:** *"Turn your followers into paying customers — guaranteed."*
-
-### Self-Funded Ad Model: Guaranteed ROI
-
-**The Formula:** Initial symbolic fees from merchants are **100% reinvested** into geo-targeted ads within Mansoura.
-
-```
-Merchant Fee → 100% to Ads → Bookings for Merchant → Merchant Success → More Merchants
-```
-
-| How It Works |
-|--------------|
-| Merchant pays small onboarding fee (₤200-500) |
-| 100% of fee goes to Facebook/TikTok ads targeting Mansoura |
-| Ads drive users to that merchant's Booky profile |
-| Merchant sees immediate bookings |
-| Success story attracts more merchants |
-
-**Result:** Merchants see ROI within the first week. Word-of-mouth spreads.
-
-### Mansoura Pilot Targets (90 Days)
-
-| Metric | Target |
-|--------|--------|
-| Merchants Onboarded | 200+ |
-| Active Users | 15,000+ |
-| Bookings Completed | 5,000+ |
-| Merchant Retention | 85%+ |
-| User Rating | 4.5+ stars |
-
----
-
-## 10. User Subscription & Loyalty Model
-
-### Tiered Subscription Model
-
-Booky Center offers **three tiers** to serve different user needs:
-
-| Feature | 🆓 **باقة المستكشف** (Free) | ⭐ **باقة اللي فاهمها** (12 EGP/mo) | 👑 **باقة الباشا** (50 EGP/mo) |
-|---------|-------------|---------------------------|------------------------|
-| **Instant Booking** | ✅ Yes | ✅ Yes | ✅ Yes |
-| **Smart Reminders** | ✅ Yes | ✅ Yes | ✅ Yes |
-| **Loyalty Coins (per booking)** | 1x Standard | 2x Double | 5x Multiplier |
-| **Booking Priority** | ❌ No | ✅ Yes (skip waitlist) | ✅ Yes + Early access |
-| **Flexible Cancellation** | ❌ Standard policy | ✅ Extended window | ✅ Maximum flexibility |
-| **AI Concierge** | ❌ No | ❌ No | ✅ Personal booking assistant |
-| **Exclusive Discounts** | ❌ No | ⚠️ Selected partners | ✅ All partners (up to 20% off) |
-| **Early Seasonal Access** | ❌ No | ❌ No | ✅ Book events 48h before public |
-| **Priority Support** | ❌ Standard | ⚠️ Faster response | ✅ Dedicated line |
+| Feature | 🆓 **Free** (مجاناً) | ⭐ **Premium** (12 EGP/mo) | 👑 **VIP** (50 EGP/mo) |
+|---------|----------------------|----------------------------|-------------------------|
+| Arabic Name | باقة المستكشف | باقة بريميوم | باقة VIP |
+| Instant Booking | ✅ | ✅ | ✅ |
+| Smart Reminders | ✅ | ✅ | ✅ |
+| Booky Coins Multiplier | 1x | 2x | 5x |
+| Booking Priority | ❌ | ✅ Skip waitlist | ✅ Skip waitlist + Early access |
+| Flexible Cancellation | Standard policy | Extended window | Maximum flexibility |
+| AI Concierge | ❌ | ❌ | ✅ Personal booking assistant |
+| Exclusive Discounts | ❌ | Selected Merchants | All Merchants (up to 20% off) |
+| Early Event Access | ❌ | ❌ | ✅ Book events 48h before public |
+| Priority Support | Standard | Faster response | Dedicated line |
 
 ### Subscription Value Breakdown
 
-| Tier | Arabic Name | Monthly Cost | Avg. User Savings | Net Value |
-|------|-------------|--------------|-------------------|-----------|
-| **Free** | باقة المستكشف | 0 EGP | Convenience only | Positive |
-| **Premium** | باقة اللي فاهمها | 12 EGP | ~50 EGP (2x coins + priority) | +38 EGP/month |
-| **VIP** | باقة الباشا | 50 EGP | ~150 EGP (5x coins + discounts) | +100 EGP/month |
+| Tier | Monthly Cost | Avg. Client Savings | Net Value |
+|------|-------------|---------------------|-----------|
+| Free | 0 EGP | Convenience only | Positive |
+| Premium | 12 EGP | ~50 EGP (2x coins + priority) | +38 EGP/month |
+| VIP | 50 EGP | ~150 EGP (5x coins + discounts) | +100 EGP/month |
 
-### The Loyalty Loop: Booky Coins
-
-**Booky Coins** are a **universal currency** earned on every booking and redeemable across ANY service vertical.
-
-#### How Booky Coins Work
-
-| Action | Coins Earned |
-|--------|-------------|
-| Complete a booking | 10-50 coins (based on value) |
-| Leave a verified review | +5 bonus coins |
-| Refer a friend (first booking) | +100 coins |
-| Premium subscriber bonus | 2x multiplier |
-| VIP subscriber bonus | 5x multiplier |
-
-#### Redemption Value
-
-| Coins | Value |
-|-------|-------|
-| 100 coins | 10 EGP discount |
-| 500 coins | 50 EGP discount |
-| 1000 coins | 100 EGP discount OR Free service (select partners) |
-
-#### The Cross-Vertical Magic
-
-> **Example:** Ahmed books a football pitch (earns 20 coins), gets a haircut (earns 15 coins), and calls a plumber (earns 30 coins). He now has **65 coins** to redeem at ANY of these services — or try a new one.
-
-**Result:** Users explore more verticals. LTV increases. Retention improves.
+> **⚠️ CRITICAL NAMING NOTE:** The Client Subscription Tier names (Free / Premium / VIP) are **intentionally different** from the Rank names (Newbie / Regular / Pro / Pasha) to avoid confusion. A Client can be a *Free* subscriber with a *Pasha* rank, or a *VIP* subscriber with a *Newbie* rank. These are independent systems.
 
 ---
 
-## 11. Revenue & Commission Model
+## 7. Subscription Model (Merchant-Side)
 
-### Revenue Streams Overview
+> These are the SaaS plans a **Merchant** pays for dashboard access. Completely separate from Client subscriptions.
 
-Booky Center generates revenue from **three primary streams**:
+| Feature | **Starter** (99 EGP/mo) | **Growth** (249 EGP/mo) | **Pro** (499 EGP/mo) |
+|---------|--------------------------|--------------------------|----------------------|
+| Business Profile | ✅ Basic | ✅ Full | ✅ Full + Featured |
+| Calendar Management | ✅ | ✅ | ✅ |
+| Monthly Booking Limit | 50 | Unlimited | Unlimited |
+| Analytics Dashboard | ❌ | ✅ | ✅ Advanced |
+| Marketing Tools | ❌ | ❌ | ✅ |
+| Featured Listing | ❌ | ❌ | ✅ (7 days/month) |
+| Priority Support | Standard | Faster | Dedicated |
+| Stories (Flash Offers) | 1/day | 2/day | 3/day |
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    REVENUE MODEL                            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   1. USER SUBSCRIPTIONS (Premium/VIP)                       │
-│   2. MERCHANT SUBSCRIPTIONS (SaaS Dashboard)                │
-│   3. TRANSACTION COMMISSIONS (Per Booking)                  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+### Additional Merchant Services (One-Time)
 
-### Stream 1: User Subscriptions
-
-| Tier | Price | Target Penetration | Monthly Revenue (per 100K users) |
-|------|-------|-------------------|----------------------------------|
-| Free | 0 EGP | 70% | 0 EGP |
-| Premium | 12 EGP | 20% | 240,000 EGP |
-| VIP | 50 EGP | 10% | 500,000 EGP |
-| **Total** | — | 100% | **740,000 EGP** |
-
-### Stream 2: Merchant Subscriptions
-
-Monthly symbolic subscription for SaaS access:
-
-| Package | Monthly Fee | What's Included |
-|---------|-------------|-----------------|
-| **Starter** | 99 EGP | Basic profile, calendar, 50 bookings/month |
-| **Growth** | 249 EGP | Full dashboard, unlimited bookings, analytics |
-| **Pro** | 499 EGP | Priority support, marketing tools, featured listing |
-
-**Additional Services:**
-
-| Service | One-Time Fee |
-|---------|-------------|
+| Service | Fee |
+|---------|-----|
 | Professional Profile Creation | 150 EGP |
 | Photo Shoot (5-10 photos) | 200 EGP |
 | Video Content (30-sec promo) | 350 EGP |
-| Featured Listing (7 days) | 100 EGP |
+| Featured Listing (extra 7 days) | 100 EGP |
 
-### Stream 3: Transaction Commissions
+---
 
-**Hybrid Model:** Different commission structures based on service type.
+## 8. The Rank System (Gamification)
 
-#### Fixed Fee Model (High-Frequency Services)
+> Ranks are **earned through behavior** (Bookings + Reviews). They are independent of Subscription Tier. A Free-tier Client who books often will outrank a VIP subscriber who doesn't.
 
-Best for: Barbers, Gyms, Small salons — where booking values are consistent.
+| Rank | Arabic Name | Badge | Requirements | Benefits Unlocked |
+|------|-------------|-------|-------------|-------------------|
+| **Newbie** | مبتدئ | 🔵 | 0-4 completed Bookings | Basic app access |
+| **Regular** | معتمد | 🟢 | 5-9 Bookings + 1 review | Booking priority (skip waitlist) |
+| **Pro** | محترف | ⚫ | 10-19 Bookings + 3 verified reviews + account age ≥ 30 days | Exclusive Merchant deals |
+| **Pasha** | الباشا | 👑 | 20+ Bookings + 5 reviews (including photo reviews) | Priority support, hidden offers, early event access |
+
+### Rank Progression Rules
+
+| Rule | Detail |
+|------|--------|
+| **Counting** | Only completed Bookings count (not cancelled or no-show). |
+| **Reviews** | Must be verified (from completed Bookings) and non-spam (≥ 20 characters). |
+| **Demotion: No-Shows** | 3+ no-shows in 30 days → demoted by one Rank. |
+| **Demotion: Inactivity** | 6 months of inactivity → demoted to Newbie. |
+| **Demotion: Abuse** | Fraud detected → immediate demotion to Newbie + account review. |
+| **Rank Restoration** | After 5 consecutive clean Bookings. |
+
+> **⚠️ NAMING NOTE:** The old documents used "مستكشف" and "اللي فاهمها" and "الباشا" for **both** Subscription Tiers and Ranks, which caused confusion. This is now resolved:
+> - **Subscription Tiers** use: Free / Premium / VIP (باقة المستكشف / باقة بريميوم / باقة VIP)
+> - **Ranks** use: Newbie / Regular / Pro / Pasha (مبتدئ / معتمد / محترف / الباشا)
+>
+> Only "الباشا" is shared intentionally — it represents the aspirational peak in both systems.
+
+---
+
+## 9. Booky Coins Economy (Loyalty)
+
+> **Single Source of Truth** for all earning rates, multipliers, and redemption rules. If any other document conflicts with this section, **this section wins**.
+
+### 9.1 Earning Rules
+
+| Action | Base Coins Earned | Conditions |
+|--------|-------------------|------------|
+| **Complete a Booking** | 10 coins per 100 EGP spent (min 10 coins) | Booking must reach `completed` status |
+| **Leave a Text Review** | +10 bonus coins | Must be ≥ 20 characters |
+| **Leave a Photo Review** | +50 bonus coins | Must include ≥ 1 photo (stacks with text review bonus) |
+| **Refer a Friend** | +100 coins | Friend must complete their first Booking |
+| **Daily Login Streak** | +5 coins/day | Resets to 0 if a day is missed |
+| **First Booking in New Sector** | +25 bonus coins | One-time per Sector (6 possible) |
+| **Birthday Bonus** | +200 coins | Auto-credited on Client's birthday |
+
+### 9.2 Subscription Tier Multipliers
+
+| Subscription Tier | Multiplier | Example (100 EGP Booking) |
+|-------------------|-----------|---------------------------|
+| Free | 1x | 10 coins |
+| Premium (12 EGP/mo) | 2x | 20 coins |
+| VIP (50 EGP/mo) | 5x | 50 coins |
+
+> **Note:** The multiplier applies ONLY to the base "Complete a Booking" earning. Bonus coins (reviews, referrals, etc.) are **not** multiplied.
+
+### 9.3 Redemption Rules
+
+| Coins | Discount Value | Minimum Booking Value |
+|-------|---------------|----------------------|
+| 100 coins | 10 EGP discount | 50 EGP |
+| 500 coins | 50 EGP discount | 200 EGP |
+| 1,000 coins | 100 EGP discount | 500 EGP |
+| 2,500 coins | Free Service | Select Merchant partners only |
+
+### 9.4 Constraints
+
+| Rule | Value |
+|------|-------|
+| **Max Discount per Booking** | 30% of Booking value |
+| **Expiry** | Coins expire after 12 months of account inactivity |
+| **Transferability** | Non-transferable between accounts |
+| **Cash Out** | Not redeemable for cash |
+| **Cross-Sector** | ✅ Earn in Sports, redeem in Beauty — full cross-Sector loyalty |
+
+### 9.5 The Cross-Sector Magic
+
+> **Example:** Ahmed books a football pitch (earns 20 coins), gets a haircut (earns 15 coins), and calls a plumber (earns 30 coins). He now has **65 coins** to redeem at ANY Sector — or try a new one for a +25 bonus.
+
+---
+
+## 10. Revenue & Commission Model
+
+### Revenue Streams
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    REVENUE MODEL                             │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│   1. CLIENT SUBSCRIPTIONS (Premium / VIP)                    │
+│   2. MERCHANT SUBSCRIPTIONS (Starter / Growth / Pro)         │
+│   3. TRANSACTION COMMISSIONS (Per Booking)                   │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Commission Structure
+
+#### Fixed Fee (High-Frequency, Low-Value Services)
 
 | Service Type | Fixed Fee per Booking |
 |--------------|----------------------|
@@ -800,226 +399,262 @@ Best for: Barbers, Gyms, Small salons — where booking values are consistent.
 | Nail Appointment | 20 EGP |
 | Small Home Repair | 30 EGP |
 
-**Why Fixed:** Merchants prefer predictability. Small bookings shouldn't lose large percentages.
-
-#### Percentage Model (High-Ticket Services)
-
-Best for: Venues, Events, Large projects — where booking values vary significantly.
+#### Percentage (High-Ticket, Variable-Value Services)
 
 | Service Type | Commission % |
 |--------------|-------------|
-| Football Pitch Booking | 5% |
+| Football Pitch | 5% |
 | Event Venue | 8% |
 | Wedding Package | 10% |
 | Corporate Booking | 7% |
 | Large Home Project | 5% |
 
-**Why Percentage:** Captures value on high-ticket items without overcharging on smaller ones.
-
-### Commission Summary Table
-
-| Service Category | Model | Amount | Example (₤500 booking) |
-|------------------|-------|--------|------------------------|
-| Barber | Fixed | 20 EGP | 20 EGP |
-| Gym | Fixed | 25 EGP | 25 EGP |
-| Football Pitch | % | 5% | 25 EGP |
-| Event Venue | % | 8% | 40 EGP |
-| Wedding | % | 10% | 50 EGP |
-| Home Services | Fixed/% | 30 EGP or 5% | 30 EGP |
-
-### Revenue Projection (Year 1 — Mansoura Pilot Expansion)
+### Revenue Projection (Year 1)
 
 | Stream | Monthly Target | Annual |
-|--------|----------------|--------|
-| User Subscriptions | 740,000 EGP | 8.88M EGP |
+|--------|---------------|--------|
+| Client Subscriptions | 740,000 EGP | 8.88M EGP |
 | Merchant Subscriptions | 500,000 EGP | 6M EGP |
 | Transaction Commissions | 1,500,000 EGP | 18M EGP |
 | **Total** | **2,740,000 EGP** | **32.88M EGP** |
 
 ---
 
-## 12. Operational Moats & Business Model
+## 11. No-Show Protection (Deposit System)
 
-### Dual-Benefit Architecture
+> This is Booky Center's **strongest operational moat**. No competitor in Egypt offers digital Deposit-based booking protection.
 
-Booky Center creates **mutual value** for both sides of the marketplace:
-
-| End-User Benefits | Merchant Benefits |
-|-------------------|-------------------|
-| ✓ One app for everything | ✓ Full SaaS dashboard |
-| ✓ Instant booking | ✓ No-show protection |
-| ✓ Price transparency | ✓ Financial transparency |
-| ✓ Verified reviews | ✓ Customer acquisition |
-| ✓ Secure payments | ✓ Revenue optimization |
-| ✓ Booky Coins loyalty | ✓ Business insights |
-| ✓ Booking history | ✓ Marketing tools |
-| ✓ 24/7 support | ✓ Payment processing |
-
-### Merchant SaaS Dashboard Features
-
-| Feature | Description | Value |
-|---------|-------------|-------|
-| **Smart Calendar** | Unified view, auto-sync | Zero double-bookings |
-| **Customer CRM** | Profiles, history, preferences | Personalized service |
-| **Revenue Analytics** | Daily/weekly/monthly trends | Business intelligence |
-| **Staff Management** | Assign bookings, track performance | Operational efficiency |
-| **Marketing Center** | Promotions, featured listings | Customer acquisition |
-| **Review Management** | Respond, track sentiment | Reputation control |
-| **Financial Reports** | Reconciliation, tax-ready exports | Accounting simplification |
-
-### No-Show Protection System (Critical Competitive Advantage)
-
-The revolutionary deposit system transforms merchant economics through **digital payments via Vodafone Cash and InstaPay**.
-
-#### How It Works
+### How It Works
 
 ```
 BOOKING FLOW:
-User selects service → Confirms slot → Pays deposit via Vodafone Cash/InstaPay → Booking confirmed
+Client selects Service → Confirms Slot → Pays Deposit → Booking confirmed
 
-IF USER SHOWS UP:
+IF CLIENT SHOWS UP:
 Deposit applied to final bill → Pay remaining balance → Complete
 
-IF USER NO-SHOWS:
-Deposit automatically transferred to merchant → User notified → Reputation impact
+IF CLIENT NO-SHOWS:
+Deposit automatically transferred to Merchant → Client notified → Rank impact
 ```
 
-#### Deposit Structure by Category
+### Deposit Structure by Sector
 
-| Service Category | Deposit % | Cancellation Window | Payment Methods |
-|------------------|-----------|---------------------|-----------------|
-| Sports | 20% | 4 hours | Vodafone Cash, InstaPay, Card |
-| Health & Beauty | 25% | 24 hours | Vodafone Cash, InstaPay, Card |
-| Entertainment | 30% | 48 hours | Vodafone Cash, InstaPay, Card |
-| Home Services | 15% | 2 hours | Vodafone Cash, InstaPay, Card |
-| Professional | 25% | 24 hours | Vodafone Cash, InstaPay, Card |
-| Events | 100% | 7 days | Vodafone Cash, InstaPay, Card, Bank Transfer |
+| Sector | Deposit % | Cancellation Window | Deposit Required When |
+|--------|-----------|---------------------|----------------------|
+| Sports & Fitness | 20% | 4 hours before | Bookings > 200 EGP |
+| Health & Beauty | 25% | 24 hours before | Premium Services |
+| Entertainment | 30% | 48 hours before | Always (highest no-show Sector) |
+| Home Services | 15% | 2 hours before | Scheduled appointments |
+| Education & Work | 25% | 24 hours before | Always |
+| Events & Celebrations | 50-100% | 7 days before | Always (high-ticket) |
 
-#### Why Digital Deposits Are a Moat
+### Payment Methods
 
-| Benefit | Impact |
-|---------|--------|
-| **Reduces no-shows** | From 30% → Under 5% |
-| **Protects merchant revenue** | ₤2.5B annual loss → recovered |
-| **Builds user accountability** | Users commit when money is involved |
-| **Enables instant confirmation** | No back-and-forth needed |
-| **Creates trust** | Both parties have skin in the game |
+| Method | Arabic | Deposit Support | Notes |
+|--------|--------|-----------------|-------|
+| Cash on Arrival | كاش عند الوصول | ❌ Not for Deposits | Only when no Deposit required |
+| Vodafone Cash | فودافون كاش | ✅ | OTP-confirmed. Egypt's #1 mobile wallet (28M+ users) |
+| InstaPay | إنستا باي | ✅ | National instant bank transfer |
+| Credit/Debit Card | بطاقة ائتمان/خصم | ✅ | 3D Secure verified |
+| Booky Coins | عملة بوكي | Partial only | Max 30% of Booking value. Cannot cover Deposit. |
 
-**No competitor in Egypt offers this.** It's our strongest operational moat.
+### Impact
 
-### Network Effect Flywheel
-
-```
-More Merchants → Better Selection → More Users → Higher Revenue → More Merchants
-        ↑                                                              │
-        └──────────────────────────────────────────────────────────────┘
-```
-
-### Competitive Moat Summary
-
-| Moat Type | Description | Defensibility |
-|-----------|-------------|---------------|
-| **Network Effects** | More users → More merchants → More users | 🔒🔒🔒 High |
-| **Data Advantage** | Cross-vertical behavior data | 🔒🔒🔒 High |
-| **Deposit System** | No-show protection via digital payments | 🔒🔒🔒 High |
-| **Switching Costs** | Booky Coins, booking history | 🔒🔒 Medium-High |
-| **Brand Trust** | Verified reviews, deposit protection | 🔒🔒 Medium-High |
-| **Hyper-localization** | Neighborhood-level data | 🔒🔒🔒 High |
+| Metric | Before Booky | With Booky |
+|--------|-------------|------------|
+| No-Show Rate | ~30% | < 5% |
+| Annual Loss (Egypt) | ₤2.5 Billion | Recovered |
 
 ---
 
-## 13. Key Metrics & Targets
+## 12. Egyptian Identity & Localization
+
+### Brand Voice
+
+Professional yet friendly, relatable. Trustworthy like a bank, approachable like a friend. Egyptian Arabic (عامية مصرية) in all client-facing communication.
+
+### Primary Slogan
+
+> **بضغطة واحدة.. ميعادك في جيبك**
+> *"One tap... your appointment is in your pocket."*
+
+### Secondary Slogans
+
+| Context | Arabic | English |
+|---------|--------|---------|
+| Client CTA | احجز ميعادك دلوقتي | Book your appointment now |
+| Merchant CTA | كبر شغلك وانضم لينا | Grow your business and join us |
+| Value Proposition | احجز أي حاجة، في أي وقت، من أي مكان | Book anything, anytime, anywhere |
+| Trust Statement | +15,000 بيزنس موثوق | +15,000 trusted businesses |
+
+### Subscription Tier Names (Client-Facing Arabic)
+
+| Tier | Arabic Display Name | Personality |
+|------|---------------------|-------------|
+| Free | باقة المستكشف | Curious, trying out |
+| Premium | باقة بريميوم | Smart, savvy |
+| VIP | باقة VIP | Elite, full experience |
+
+### Rank Names (Client-Facing Arabic)
+
+| Rank | Arabic Display Name | Badge |
+|------|---------------------|-------|
+| Newbie | مبتدئ | 🔵 |
+| Regular | معتمد | 🟢 |
+| Pro | محترف | ⚫ |
+| Pasha | الباشا | 👑 |
+
+---
+
+## 13. Market Intelligence & Competitive Edge
+
+### Global Market
+
+| Metric | Value |
+|--------|-------|
+| Market Size (2025) | $101 Billion |
+| Projected Size (2034) | $627.4 Billion |
+| Growth Rate (CAGR) | 22.5% |
+
+> *Source: 'Global Outlook 2025-2034: Reservation and Online Booking Software Market', Research and Markets, October 2025.*
+
+### Egypt's Digital Readiness (2026)
+
+| Metric | Value |
+|--------|-------|
+| Internet Users | 98.2 Million (82.7% of population) |
+| Mobile Connections | 121 Million (102% — multi-SIM) |
+| Smartphone Penetration | 78% |
+| Median Age | 24.5 years |
+| Prefer All-in-One Apps | 73% |
+
+> *Source: 'Digital 2026: Egypt', DataReportal.*
+
+### Total Addressable Market (Egypt)
+
+| Metric | Value |
+|--------|-------|
+| TAM | ₤86.8 Billion (~$2.8B USD) |
+| SAM (Digitally Addressable) | ₤28.4 Billion (32.7%) |
+| SOM Year 1 (3% Target) | ₤850 Million |
+
+### Competitive Advantage (4 "Kill Zones")
+
+| Kill Zone | Description |
+|-----------|-------------|
+| **1. Cross-Sector LTV** | A Vezeeta client booking a doctor also needs a barber, cleaner, and football pitch. Booky captures ALL. |
+| **2. No-Show Protection** | Deposits via Vodafone Cash/InstaPay. No competitor offers this. |
+| **3. Unified Loyalty** | Booky Coins work across ALL Sectors. Book a gym, redeem at a spa. |
+| **4. Hyper-Localization** | Competitors filter by city. Booky filters by neighborhood. 10x more relevant. |
+
+### Competitive Feature Matrix
+
+| Feature | **Booky** | Vezeeta | Malaeb | Filkhedma | Social Media |
+|---------|-----------|---------|--------|-----------|--------------|
+| Sectors Covered | 6 (All) | 1 (Health) | 1 (Sports) | 1 (Home) | 0 |
+| Real-time Availability | ✅ | Partial | ✅ | ❌ | ❌ |
+| Price Transparency | ✅ Mandatory | ✅ | Partial | Quote-based | ❌ |
+| No-Show Protection | ✅ Deposit | ❌ | Limited | ❌ | ❌ |
+| Cross-Sector Loyalty | ✅ Booky Coins | ❌ | ❌ | ❌ | ❌ |
+| Multi-Payment | ✅ Card/Wallet/BNPL | Card/Cash | Limited | Cash only | Cash only |
+| Merchant Dashboard | ✅ Full SaaS | Basic | Basic | ❌ | ❌ |
+| Hyper-Localization | ✅ Neighborhood | City | City | City | Limited |
+
+---
+
+## 14. The Mansoura Pilot Strategy
+
+### Why Mansoura?
+
+| Factor | Advantage |
+|--------|-----------|
+| Population | 1.5M+ metropolitan area |
+| Digital Literacy | High university population = tech-savvy |
+| Competition | Low penetration by existing booking apps |
+| Cost Efficiency | Lower CAC than Cairo/Alexandria |
+| Scalability | Model replicable to other Delta cities |
+
+### Cluster Approach (3 Neighborhoods)
+
+| Cluster | Profile | Target Sectors |
+|---------|---------|----------------|
+| University District | Students, young professionals | Sports, Education, Barbers, Cafes |
+| Turiel | Families, middle-class | Beauty, Home Services, Kids Activities |
+| Al-Mashaya (Downtown) | Commercial hub | Restaurants, Events, Professional Services |
+
+### Merchant Acquisition: Two Tracks
+
+| Track | Profile | Pitch |
+|-------|---------|-------|
+| **Digital Immigrants** | Traditional, zero digital presence | "We build your digital identity from scratch — free." |
+| **Growth Seekers** | Active on social media, want more clients | "Turn your followers into paying customers — guaranteed." |
+
+### Pilot Targets (90 Days)
+
+| Metric | Target |
+|--------|--------|
+| Merchants Onboarded | 200+ |
+| Active Clients | 15,000+ |
+| Bookings Completed | 5,000+ |
+| No-Show Rate | < 5% |
+| Subscription Conversion | 25%+ |
+| Merchant Retention | 85%+ |
+
+---
+
+## 15. Key Metrics & Targets
 
 ### North Star Metrics (Year 1)
 
 | Metric | Definition | Target |
 |--------|------------|--------|
 | **GMV** | Gross Merchandise Value | ₤850 Million |
-| **MAU** | Monthly Active Users | 2.5 Million |
-| **Active Merchants** | Merchants with ≥1 booking/month | 15,000 |
-| **Bookings/Month** | Total completed bookings | 500,000 |
+| **MAU** | Monthly Active Clients | 2.5 Million |
+| **Active Merchants** | Merchants with ≥1 Booking/month | 15,000 |
+| **Bookings/Month** | Total completed Bookings | 500,000 |
 | **NPS** | Net Promoter Score | > 50 |
 
-### Vertical-Specific KPIs
+### Sector-Specific KPIs
 
-| Vertical | Primary KPI | Target |
-|----------|-------------|--------|
-| Sports | Weekly Active Bookers | 150,000 |
+| Sector | Primary KPI | Target |
+|--------|-------------|--------|
+| Sports & Fitness | Weekly Active Bookers | 150,000 |
 | Health & Beauty | 12-Month Retention | 72% |
 | Entertainment | Social Share Rate | 45% |
 | Home Services | Repeat Booking Rate | 68% |
-| Professional | B2B Accounts | 10,000 |
-| Events | Avg. Transaction Value | ₤1,500 |
+| Education & Work | B2B Accounts | 10,000 |
+| Events & Celebrations | Avg. Transaction Value | ₤1,500 |
 
-### Mansoura Pilot KPIs (90 Days)
+### Acquisition Channels
 
-| Metric | Target |
-|--------|--------|
-| Merchants Onboarded | 200+ |
-| Active Users | 15,000+ |
-| Bookings Completed | 5,000+ |
-| No-Show Rate | < 5% |
-| User Subscription Conversion | 25%+ |
-| Merchant Retention | 85%+ |
-
----
-
-## Quick Reference Summary
-
-### What is Booky Center?
-
-**Egypt's first All-in-One Booking Super App** — one tap to book sports, beauty, home services, professional services, entertainment, and events.
-
-### Why Now?
-
-| Global Market | Egypt Market |
-|---------------|--------------|
-| $101B → $627B by 2034 | 98.2M internet users (82.7%) |
-| 22.5% CAGR growth | 121M mobile connections |
-| Mobile-first is standard | Median age 24.5 (young & digital) |
-| Embedded finance solving no-shows | 73% prefer all-in-one apps |
-
-### Launch Strategy
-
-**Mansoura Pilot** → Prove model → Scale to Delta cities → National expansion
-
-### Revenue Model
-
-1. **User Subscriptions:** Free / Premium (12 EGP) / VIP (50 EGP)
-2. **Merchant Subscriptions:** Starter (99 EGP) / Growth (249 EGP) / Pro (499 EGP)
-3. **Transaction Commissions:** Fixed (20-30 EGP) or Percentage (5-10%)
-
-### What's Our Edge?
-
-1. **Cross-Vertical LTV** — capture the whole customer journey
-2. **No-Show Protection** — deposits via Vodafone Cash/InstaPay
-3. **Booky Coins** — universal loyalty across all verticals
-4. **Hyper-Localization** — neighborhood-level discovery
-
-### Total Market Opportunity
-
-- **TAM:** ₤86.8 Billion ($2.8B USD)
-- **SAM:** ₤28.4 Billion (digitally addressable)
-- **SOM Year 1:** ₤850 Million (3% target)
+| Channel | Users (Egypt 2026) | Budget Allocation |
+|---------|-------------------|-------------------|
+| Facebook | 51.6M | 35% |
+| TikTok | 48.8M | 30% |
+| Instagram | 21.7M | 20% |
+| Google | Intent-based | 10% |
+| Referral | Organic | 5% |
 
 ---
 
-## Glossary
+## 16. Glossary of Business Acronyms
 
-| Term | Definition |
-|------|------------|
+| Acronym | Definition |
+|---------|------------|
 | **GMV** | Gross Merchandise Value — total value of transactions processed |
-| **LTV** | Lifetime Value — total revenue expected from a customer |
-| **CAC** | Customer Acquisition Cost — cost to acquire one new customer |
-| **MAU** | Monthly Active Users — unique users engaging monthly |
-| **NPS** | Net Promoter Score — customer satisfaction/loyalty metric |
-| **ROAS** | Return on Ad Spend — revenue generated per advertising dollar |
-| **SaaS** | Software as a Service — cloud-based software delivery model |
+| **LTV** | Lifetime Value — total revenue expected from a Client |
+| **CAC** | Client Acquisition Cost — cost to acquire one new Client |
+| **MAU** | Monthly Active Users — unique Clients engaging monthly |
+| **NPS** | Net Promoter Score — satisfaction/loyalty metric |
+| **ROAS** | Return on Ad Spend — revenue per advertising pound |
+| **SaaS** | Software as a Service — cloud-based software model |
 | **BNPL** | Buy Now, Pay Later — deferred payment option |
 | **TAM** | Total Addressable Market — entire market demand |
 | **SAM** | Serviceable Addressable Market — portion we can reach |
 | **SOM** | Serviceable Obtainable Market — realistic capture target |
-| **Booky Coins** | Universal loyalty currency earned per booking, redeemable across all verticals |
+| **OTP** | One-Time Password — SMS verification code |
+| **EET** | Eastern European Time — Egypt's timezone (UTC+2) |
+| **RTL** | Right-to-Left — Arabic text/layout direction |
 
 ---
 
@@ -1030,14 +665,20 @@ More Merchants → Better Selection → More Users → Higher Revenue → More M
 | 1.0 | Feb 7, 2026 | Initial detailed business foundation |
 | 2.0 | Feb 7, 2026 | Simplified project foundation |
 | 3.0 | Feb 7, 2026 | Consolidated Master Document |
-| 4.0 | Feb 9, 2026 | **Strategic Update:** Mansoura Pilot, Subscription Tiers, Revenue Model, Digital Deposits |
-| 5.0 | Feb 10, 2026 | **Egyptian Identity:** Localization strategy, Arabic slogans, tier names, hyper-local marketing |
+| 4.0 | Feb 9, 2026 | Strategic Update: Mansoura Pilot, Subscription Tiers, Revenue Model, Digital Deposits |
+| 5.0 | Feb 10, 2026 | Egyptian Identity: Localization strategy, Arabic slogans, tier names |
+| **6.0** | **Feb 14, 2026** | **Master Hub Restructure:** Unified Project Dictionary, resolved all terminology conflicts (Client/Merchant/Sector), separated Rank from Subscription naming, established canonical Sector Arabic names, created Documentation Index, set Global Rules & Conventions. This version supersedes all previous versions as the Single Source of Truth. |
 
 ---
 
-*Booky Center: Your Life, One Tap | بضغطة واحدة.. ميعادك في جيبك* ✨
-
-**This document serves as the single Source of Truth for Booky Center's business foundation, market analysis, competitive landscape, and operational strategy. All technical and operational modules must align with this framework.**
+> **📌 HOW TO USE THIS DOCUMENT:**
+>
+> 1. **Before writing any doc:** Check §2 (Dictionary) for correct terminology.
+> 2. **Before creating a feature:** Check §4 (Global Rules) for conventions.
+> 3. **Before quoting a number:** Check §9 (Coins), §10 (Revenue), or §11 (Deposits) — this file is the canonical source.
+> 4. **If any other document conflicts with this file:** This file wins. Update the other document.
+>
+> *Booky Center: بضغطة واحدة.. ميعادك في جيبك* ✨
 
 ---
 
