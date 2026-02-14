@@ -1,0 +1,53 @@
+---
+alwaysApply: true
+---
+
+# Booky Center — Mandatory Terminology Rules
+
+This project enforces strict terminology as defined in [BOOKY_CENTER_BUSINESS_MASTER.md](mdc:docs/BOOKY_CENTER_BUSINESS_MASTER.md).
+
+## Core Entity Names (NEVER deviate)
+
+| ✅ ALWAYS Use | ❌ NEVER Use |
+|---------------|--------------|
+| **Client** (العميل) | ~~Customer~~, ~~User~~, ~~Consumer~~, ~~Buyer~~ |
+| **Merchant** (التاجر) | ~~Vendor~~, ~~Provider~~, ~~Partner~~, ~~Seller~~ |
+| **Service** (الخدمة) | ~~Product~~, ~~Offering~~, ~~Item~~ |
+| **Sector** (القطاع) | ~~Category~~, ~~Vertical~~, ~~Pillar~~ |
+| **Booking** (الحجز) | ~~Reservation~~, ~~Appointment~~, ~~Order~~ |
+| **Booky Coins** (عملة بوكي) | ~~Points~~, ~~Credits~~, ~~Rewards~~ |
+| **Slot** (الموعد المتاح) | ~~Time~~, ~~Appointment~~, ~~Window~~ |
+| **Deposit** (العربون) | ~~Prepayment~~, ~~Down Payment~~ |
+| **Rank** (الرتبة) | ~~Level~~, ~~Tier~~ (when referring to Rank) |
+| **Subscription Tier** (باقة الاشتراك) | ~~Plan~~, ~~Package~~, ~~Membership~~ |
+| **Merchant Dashboard** (لوحة تحكم التاجر) | ~~Admin Panel~~, ~~Backend~~, ~~Portal~~ |
+| **Feed** (المجتمع) | ~~Timeline~~, ~~Stream~~, ~~Wall~~ |
+| **Story** (العرض السريع) | ~~Offer~~, ~~Flash~~ (as UI component) |
+| **Inquiry** (الاستفسار) | ~~Chat~~, ~~Message~~, ~~DM~~ |
+
+## Code Naming Conventions
+
+- DB columns: `snake_case` → `client_id`, `merchant_id`, `booking_status`
+- TypeScript interfaces: `PascalCase` → `ClientProfile`, `MerchantProfile`
+- API endpoints: `kebab-case` nouns → `/clients/me`, `/merchants/:id`, `/bookings`
+- React components: `PascalCase` → `ClientHome`, `MerchantDashboard`
+- Enum values: `UPPER_SNAKE_CASE` → `HEALTH_BEAUTY`, `CANCELLED_BY_CLIENT`
+
+## Global Constants
+
+- **Currency:** EGP (integers, no floats)
+- **Timezone:** Africa/Cairo (UTC+2). Store UTC, display EET.
+- **Phone:** E.164 format `+201XXXXXXXXX`
+- **IDs:** UUID v4
+- **Timestamps:** ISO 8601 UTC
+- **UI Language:** Arabic (Egyptian dialect, RTL)
+- **Code Language:** English
+
+## The Six Sectors (canonical IDs)
+
+`sports` | `health_beauty` | `entertainment` | `home_services` | `education` | `events`
+
+## Rank vs Subscription (They are SEPARATE systems)
+
+- **Subscription Tiers** (paid): Free / Premium / VIP
+- **Ranks** (earned): Newbie / Regular / Pro / Pasha

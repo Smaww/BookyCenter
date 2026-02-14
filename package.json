@@ -4,10 +4,12 @@
   "description": "Booky Center - Egypt's first All-in-One Booking Super App",
   "private": true,
   "dependencies": {
+    "@react-google-maps/api": "^2.20.8",
     "framer-motion": "^12.34.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "use-places-autocomplete": "^4.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import HeroSection from '../components/HeroSection';
 
 /**
  * Booky Center - Uber-Minimalist Edition
@@ -192,113 +193,9 @@ const Icons = {
   ),
 };
 
-// ============================================================================
-// HERO ILLUSTRATION - Constrained for Zero-Scroll
-// ============================================================================
-const HeroIllustration = ({ className = "", isLoaded = false }) => (
-  <div className={`relative bg-transparent flex items-center justify-center ${className}`}>
-    <img
-      src="/hero-illustration.png"
-      alt="شخص يستخدم تطبيق بوكي سنتر"
-      className={`w-auto h-full max-h-[35vh] lg:max-h-[40vh] object-contain transition-all duration-700 drop-shadow-2xl grayscale ${
-        isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-      }`}
-    />
-  </div>
-);
+// HeroIllustration has been moved to src/components/HeroSection.jsx
 
-// ============================================================================
-// CUSTOM DROPDOWN COMPONENT - Uber Style (Fixed Z-Index & Styling)
-// ============================================================================
-const CustomDropdown = ({ 
-  value, 
-  onChange, 
-  options, 
-  placeholder, 
-  icon: Icon,
-  className = "" 
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
-
-  // Close on outside click
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  // Close on Escape key
-  useEffect(() => {
-    const handleEscape = (e) => {
-      if (e.key === 'Escape') setIsOpen(false);
-    };
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, []);
-
-  const selectedOption = options.find(opt => opt === value);
-
-  return (
-    <div ref={dropdownRef} className={`relative ${className}`}>
-      {/* Trigger Button */}
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full h-14 flex items-center justify-between gap-2 px-4 bg-transparent hover:bg-gray-50/80 transition-colors border-none outline-none focus:outline-none"
-      >
-        <div className="flex items-center gap-3">
-          {Icon && <Icon className="w-5 h-5 text-black flex-shrink-0" />}
-          <span className={`font-semibold font-cairo text-sm sm:text-base ${value ? 'text-black' : 'text-gray-400'}`}>
-            {selectedOption || placeholder}
-          </span>
-        </div>
-        <Icons.ChevronDown 
-          className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} 
-        />
-      </button>
-
-      {/* Dropdown Menu - FIXED: High z-index, proper shadow */}
-      {isOpen && (
-        <div 
-          className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl ring-1 ring-black/5 z-[100] overflow-hidden"
-          style={{
-            animation: 'dropdownFadeIn 0.2s ease-out forwards'
-          }}
-        >
-          <div className="max-h-60 overflow-y-auto py-1">
-            {options.map((option) => (
-              <button
-                key={option}
-                type="button"
-                onClick={() => {
-                  onChange(option);
-                  setIsOpen(false);
-                }}
-                className={`w-full text-right px-4 py-3 font-cairo font-semibold transition-colors border-none outline-none ${
-                  value === option 
-                    ? 'bg-gray-100 text-black' 
-                    : 'text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span>{option}</span>
-                  {value === option && (
-                    <Icons.Check className="w-4 h-4 text-black" />
-                  )}
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
+// CustomDropdown has been moved to src/components/HeroSection.jsx (as SectorDropdown)
 
 // ============================================================================
 // INTERSECTION OBSERVER HOOK
@@ -514,135 +411,8 @@ const Header = ({ onOpenAuthModal, onLogin }) => {
   );
 };
 
-// ============================================================================
-// HERO SECTION - Zero-Scroll Desktop (100vh) + Custom Dropdowns
-// ============================================================================
-const HeroSection = () => {
-  const [selectedArea, setSelectedArea] = useState('');
-  const [selectedService, setSelectedService] = useState('');
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoaded(true), 100);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const areas = ['المنصورة', 'القاهرة', 'الإسكندرية', 'الجيزة', 'المعادي', 'مدينة نصر'];
-  const services = ['ملاعب وصالات', 'جمال وصحة', 'خروجات وعيلة', 'خدمات بيت', 'تعليم وشغل', 'مناسبات'];
-
-  return (
-    <section className="relative bg-black pt-16 min-h-[100svh] lg:h-screen lg:max-h-screen">
-      {/* Abstract Pattern Background - z-0 */}
-      <div className="absolute inset-0 opacity-5 z-0">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 20% 50%, white 1px, transparent 1px),
-                           radial-gradient(circle at 80% 30%, white 1px, transparent 1px)`,
-          backgroundSize: '100px 100px'
-        }} />
-      </div>
-
-      {/* Main Container - Flex to Fill Height & Center Content */}
-      <div className="relative h-full max-w-6xl mx-auto px-4 sm:px-6 flex flex-col justify-center z-10">
-        
-        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4 lg:gap-6 py-6 lg:py-0 items-center">
-          
-          {/* ========== ILLUSTRATION (Constrained Height for Zero-Scroll) ========== */}
-          <div className="order-1 lg:order-2 w-full flex justify-center lg:justify-start">
-            <HeroIllustration 
-              className="w-40 sm:w-48 lg:w-full lg:max-w-[280px]" 
-              isLoaded={isLoaded}
-            />
-          </div>
-
-          {/* ========== CONTENT ========== */}
-          <div className="order-2 lg:order-1 text-center lg:text-right">
-            
-            {/* Trust Badge - Compact */}
-            <div className={`inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 rounded-full mb-3 lg:mb-4 transition-all duration-700 delay-200 ${
-              isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}>
-              <span className="text-xs sm:text-sm text-white/80 font-cairo">+15,000 بيزنس موثوق في مصر</span>
-            </div>
-
-            {/* Main Headline - Compact for Zero-Scroll */}
-            <h1 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight lg:leading-snug mb-2 lg:mb-3 font-cairo transition-all duration-700 delay-300 ${
-              isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}>
-              بضغطة واحدة..
-              <br />
-              <span className="text-white">ميعادك في جيبك</span>
-            </h1>
-            
-            {/* Sub-headline - Compact */}
-            <p className={`text-sm sm:text-base text-white/60 leading-relaxed mb-4 lg:mb-5 font-cairo max-w-md mx-auto lg:mx-0 lg:mr-0 transition-all duration-700 delay-400 ${
-              isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}>
-              أول منصة في مصر تحجزلك أي خدمة وأنت في مكانك..
-              <span className="hidden sm:inline"> من ملعب الكورة لحد دكتور الأسنان. وفر وقتك ومجهودك.</span>
-            </p>
-
-            {/* ========== SEARCH HUB - FIXED Z-INDEX FOR DROPDOWNS ========== */}
-            <div className={`relative z-50 bg-white rounded-2xl shadow-2xl shadow-black/50 transition-all duration-700 delay-500 ${
-              isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}>
-              {/* Desktop: Seamless horizontal bar | Mobile: Stacked */}
-              <div className="flex flex-col lg:flex-row lg:items-stretch">
-                
-                {/* Area Dropdown - Custom Component */}
-                <div className="relative flex-1 border-b lg:border-b-0 lg:border-l border-gray-100">
-                  <CustomDropdown
-                    value={selectedArea}
-                    onChange={setSelectedArea}
-                    options={areas}
-                    placeholder="اختر المنطقة"
-                    icon={Icons.MapPin}
-                  />
-                </div>
-
-                {/* Service Dropdown - Custom Component */}
-                <div className="relative flex-1 border-b lg:border-b-0">
-                  <CustomDropdown
-                    value={selectedService}
-                    onChange={setSelectedService}
-                    options={services}
-                    placeholder="نوع الخدمة"
-                    icon={Icons.Grid}
-                  />
-                </div>
-
-                {/* Search Button - FIXED: No borders, seamless connection */}
-                <button className="h-14 px-8 bg-black flex items-center justify-center gap-2 hover:bg-gray-800 active:scale-[0.98] transition-all rounded-b-2xl lg:rounded-b-none lg:rounded-l-2xl border-none outline-none ring-0 focus:ring-0 focus:outline-none">
-                  <Icons.Search className="w-5 h-5 text-white" />
-                  <span className="text-white font-bold font-cairo">ابحث دلوقتي</span>
-                </button>
-              </div>
-            </div>
-
-            {/* ========== STATS - LOWER Z-INDEX ========== */}
-            <div className={`relative z-10 flex flex-row items-center justify-center lg:justify-end gap-4 sm:gap-6 mt-4 lg:mt-5 transition-all duration-700 delay-700 ${
-              isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`} style={{ direction: 'rtl' }}>
-              <div className="text-center">
-                <p className="text-sm sm:text-lg font-black text-white font-cairo">+500K</p>
-                <p className="text-[10px] text-gray-400 font-cairo">حجز</p>
-              </div>
-              <div className="w-px h-6 sm:h-8 bg-white/20" />
-              <div className="text-center">
-                <p className="text-sm sm:text-lg font-black text-white font-cairo">4.8</p>
-                <p className="text-[10px] text-gray-400 font-cairo">تقييم</p>
-              </div>
-              <div className="w-px h-6 sm:h-8 bg-white/20" />
-              <div className="text-center">
-                <p className="text-sm sm:text-lg font-black text-white font-cairo">6</p>
-                <p className="text-[10px] text-gray-400 font-cairo">خدمات</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+// HeroSection has been moved to src/components/HeroSection.jsx
+// Imported at the top of this file
 
 // ============================================================================
 // DECISION SECTION - Merchant vs. Client (Compact, No-Scroll Design)
@@ -1105,7 +875,7 @@ const TransformationSection = () => {
 
           {/* ========== COLUMN 2: AFTER BOOKY (The Solution) ========== */}
           <div 
-            className={`relative bg-white rounded-2xl lg:rounded-r-3xl lg:rounded-l-none p-6 sm:p-8 lg:p-10 shadow-2xl z-10 transition-all duration-700 delay-100 ${
+            className={`relative overflow-hidden bg-white rounded-2xl lg:rounded-r-3xl lg:rounded-l-none p-6 sm:p-8 lg:p-10 shadow-2xl z-10 transition-all duration-700 delay-100 ${
               isInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
             }`}
           >
@@ -1142,8 +912,8 @@ const TransformationSection = () => {
               ))}
             </div>
 
-            {/* Floating Badge */}
-            <div className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 bg-black text-white px-4 py-2 rounded-full text-xs sm:text-sm font-bold font-cairo shadow-lg">
+            {/* Floating Badge — inset to avoid horizontal overflow */}
+            <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-black text-white px-4 py-2 rounded-full text-xs sm:text-sm font-bold font-cairo shadow-lg">
               ✓ الحل
             </div>
           </div>
@@ -1216,8 +986,8 @@ const PricingSection = () => {
   };
 
   return (
-    <section ref={ref} className="py-16 lg:py-24 bg-gray-50">
-      <div className="max-w-6xl mx-auto">
+    <section ref={ref} className="py-16 lg:py-24 bg-gray-50 overflow-x-hidden">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         
         {/* Section Header */}
         <div className="text-center mb-10 lg:mb-16 px-4 sm:px-6">
@@ -1420,7 +1190,7 @@ const LandingPage = ({ onSelectType }) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white font-cairo" dir="rtl">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-white font-cairo" dir="rtl">
       <Header 
         onOpenAuthModal={() => setIsAuthModalOpen(true)} 
         onLogin={() => onSelectType?.('client')}
