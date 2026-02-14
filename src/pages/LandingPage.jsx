@@ -56,6 +56,24 @@ const Icons = {
       <path d="M20 21a8 8 0 0 0-16 0" />
     </svg>
   ),
+  Store: ({ className = "w-6 h-6" }) => (
+    <svg className={className} fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+      <path d="M3 9h18M9 21V9m6 12V9M4 9l1-4h14l1 4M5 9v11a1 1 0 001 1h12a1 1 0 001-1V9" />
+    </svg>
+  ),
+  UserPlus: ({ className = "w-6 h-6" }) => (
+    <svg className={className} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+      <circle cx="9" cy="7" r="4" />
+      <path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
+      <line x1="19" y1="8" x2="19" y2="14" />
+      <line x1="16" y1="11" x2="22" y2="11" />
+    </svg>
+  ),
+  LogIn: ({ className = "w-5 h-5" }) => (
+    <svg className={className} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+      <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3" />
+    </svg>
+  ),
   Check: ({ className = "w-5 h-5" }) => (
     <svg className={className} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
       <polyline points="20 6 9 17 4 12" />
@@ -304,7 +322,128 @@ const useInView = (threshold = 0.1) => {
 // ============================================================================
 // HEADER - Black Minimal
 // ============================================================================
-const Header = () => {
+// ============================================================================
+// AUTH SELECTION MODAL - "عايز تسجل كـ إيه؟"
+// ============================================================================
+const AuthSelectionModal = ({ isOpen, onClose, onSelectType }) => {
+  const modalRef = useRef(null);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleKey = (e) => e.key === 'Escape' && onClose();
+    if (isOpen) {
+      document.addEventListener('keydown', handleKey);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, onClose]);
+
+  // Close on backdrop click
+  const handleBackdropClick = (e) => {
+    if (modalRef.current && !modalRef.current.contains(e.target)) {
+      onClose();
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div 
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      onClick={handleBackdropClick}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in" />
+      
+      {/* Modal */}
+      <div 
+        ref={modalRef}
+        className="relative bg-white rounded-3xl w-full max-w-md p-8 shadow-2xl animate-slide-up z-10"
+        dir="rtl"
+      >
+        {/* Close Button */}
+        <button 
+          onClick={onClose}
+          className="absolute top-4 left-4 w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+        >
+          <Icons.X className="w-5 h-5 text-gray-600" />
+        </button>
+
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-black text-black font-cairo mb-2">
+            عايز تسجل كـ إيه؟
+          </h2>
+          <p className="text-sm text-gray-500 font-cairo">
+            اختار نوع حسابك وابدأ في ثواني
+          </p>
+        </div>
+
+        {/* Choice Cards */}
+        <div className="space-y-4">
+          
+          {/* Option A: Customer */}
+          <button 
+            className="w-full group flex items-center gap-4 p-5 bg-white border-2 border-gray-200 rounded-2xl hover:border-black hover:shadow-lg transition-all duration-200 active:scale-[0.98]"
+            onClick={() => {
+              onClose();
+              onSelectType?.('client');
+            }}
+          >
+            <div className="w-14 h-14 rounded-2xl bg-gray-100 group-hover:bg-black flex items-center justify-center flex-shrink-0 transition-colors">
+              <Icons.User className="w-7 h-7 text-gray-600 group-hover:text-white transition-colors" />
+            </div>
+            <div className="text-right flex-1">
+              <h3 className="text-lg font-black text-black font-cairo">عميل</h3>
+              <p className="text-sm text-gray-500 font-cairo">عايز أحجز خدمات.</p>
+            </div>
+            <Icons.ArrowLeft className="w-5 h-5 text-gray-300 group-hover:text-black transition-colors" />
+          </button>
+
+          {/* Option B: Merchant */}
+          <button 
+            className="w-full group flex items-center gap-4 p-5 bg-white border-2 border-gray-200 rounded-2xl hover:border-black hover:shadow-lg transition-all duration-200 active:scale-[0.98]"
+            onClick={() => {
+              onClose();
+              onSelectType?.('merchant');
+            }}
+          >
+            <div className="w-14 h-14 rounded-2xl bg-gray-100 group-hover:bg-black flex items-center justify-center flex-shrink-0 transition-colors">
+              <Icons.Store className="w-7 h-7 text-gray-600 group-hover:text-white transition-colors" />
+            </div>
+            <div className="text-right flex-1">
+              <h3 className="text-lg font-black text-black font-cairo">تاجر</h3>
+              <p className="text-sm text-gray-500 font-cairo">عايز أدير شغلي.</p>
+            </div>
+            <Icons.ArrowLeft className="w-5 h-5 text-gray-300 group-hover:text-black transition-colors" />
+          </button>
+        </div>
+
+        {/* Footer Note */}
+        <p className="text-center text-xs text-gray-400 font-cairo mt-6">
+          عندك حساب بالفعل؟{' '}
+          <button 
+            onClick={() => {
+              onClose();
+              onSelectType?.('client');
+            }} 
+            className="text-black font-bold hover:underline"
+          >
+            سجل دخول
+          </button>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+// ============================================================================
+// HEADER - Sticky Navbar with Auth Buttons
+// ============================================================================
+const Header = ({ onOpenAuthModal, onLogin }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -315,26 +454,60 @@ const Header = () => {
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-black shadow-lg' : 'bg-black'
+      isScrolled 
+        ? 'bg-white/95 backdrop-blur-md shadow-sm' 
+        : 'bg-black'
     }`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
-          {/* Official Logo */}
+          
+          {/* Right: Brand Logo */}
           <div className="flex items-center gap-2">
             <img 
               src="/booky_logo.png" 
               alt="Booky Center" 
               className="w-10 h-10 object-contain"
             />
-            <span className="text-lg font-black text-white tracking-tight font-cairo">
+            <span className={`text-lg font-black tracking-tight font-cairo transition-colors ${
+              isScrolled ? 'text-black' : 'text-white'
+            }`}>
               Booky Center
             </span>
           </div>
           
-          {/* Desktop Nav */}
-          <button className="hidden md:block px-6 py-2.5 text-sm font-bold bg-white text-black rounded-lg hover:bg-gray-100 transition-all font-cairo">
-            دخول
-          </button>
+          {/* Left: Auth Actions */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            
+            {/* Login Button (Ghost / Text) — Simulates instant login as client */}
+            <button 
+              onClick={onLogin}
+              className={`
+              flex items-center gap-1.5 px-4 py-2 text-sm font-bold rounded-lg
+              transition-all duration-200 font-cairo
+              ${isScrolled 
+                ? 'text-black hover:bg-gray-100' 
+                : 'text-white hover:bg-white/10'
+              }
+            `}>
+              <Icons.LogIn className="w-4 h-4" />
+              <span className="hidden sm:inline">دخول</span>
+            </button>
+
+            {/* Register Button (Primary - Solid Black) */}
+            <button 
+              onClick={onOpenAuthModal}
+              className={`
+                flex items-center gap-1.5 px-5 py-2 text-sm font-bold rounded-full
+                transition-all duration-200 font-cairo active:scale-[0.97]
+                ${isScrolled 
+                  ? 'bg-black text-white hover:bg-gray-800' 
+                  : 'bg-white text-black hover:bg-gray-100'
+                }
+              `}
+            >
+              <span>حساب جديد</span>
+            </button>
+          </div>
         </div>
       </div>
     </header>
@@ -1179,7 +1352,7 @@ const PricingSection = () => {
 // ============================================================================
 const Footer = () => {
   return (
-    <footer className="bg-black py-16 pb-24 md:pb-16">
+    <footer className="bg-black py-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid md:grid-cols-3 gap-12 items-center">
           {/* Official Logo */}
@@ -1240,49 +1413,31 @@ const Footer = () => {
 // ============================================================================
 // MOBILE BOTTOM NAVIGATION
 // ============================================================================
-const MobileBottomNav = () => {
-  const [activeTab, setActiveTab] = useState('home');
-
-  const tabs = [
-    { id: 'home', label: 'الرئيسية', icon: Icons.Home },
-    { id: 'bookings', label: 'حجوزاتي', icon: Icons.Calendar },
-    { id: 'account', label: 'حسابي', icon: Icons.User },
-  ];
-
-  return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 md:hidden safe-area-bottom">
-      <div className="flex items-center justify-around h-16">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`relative flex flex-col items-center justify-center flex-1 h-full transition-colors ${
-              activeTab === tab.id ? 'text-black' : 'text-gray-400'
-            }`}
-          >
-            <tab.icon className="w-6 h-6" />
-            <span className="text-xs font-bold mt-1 font-cairo">{tab.label}</span>
-          </button>
-        ))}
-      </div>
-    </nav>
-  );
-};
-
 // ============================================================================
 // MAIN LANDING PAGE
 // ============================================================================
-const LandingPage = () => {
+const LandingPage = ({ onSelectType }) => {
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-white font-cairo" dir="rtl">
-      <Header />
+      <Header 
+        onOpenAuthModal={() => setIsAuthModalOpen(true)} 
+        onLogin={() => onSelectType?.('client')}
+      />
       <HeroSection />
       <DecisionSection />
       <ServiceGalaxy />
       <TransformationSection />
       <PricingSection />
       <Footer />
-      <MobileBottomNav />
+
+      {/* Auth Selection Modal */}
+      <AuthSelectionModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)}
+        onSelectType={onSelectType}
+      />
     </div>
   );
 };
