@@ -56,6 +56,24 @@ const Icons = {
       <path d="M20 21a8 8 0 0 0-16 0" />
     </svg>
   ),
+  Store: ({ className = "w-6 h-6" }) => (
+    <svg className={className} fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+      <path d="M3 9h18M9 21V9m6 12V9M4 9l1-4h14l1 4M5 9v11a1 1 0 001 1h12a1 1 0 001-1V9" />
+    </svg>
+  ),
+  UserPlus: ({ className = "w-6 h-6" }) => (
+    <svg className={className} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+      <circle cx="9" cy="7" r="4" />
+      <path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
+      <line x1="19" y1="8" x2="19" y2="14" />
+      <line x1="16" y1="11" x2="22" y2="11" />
+    </svg>
+  ),
+  LogIn: ({ className = "w-5 h-5" }) => (
+    <svg className={className} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+      <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3" />
+    </svg>
+  ),
   Check: ({ className = "w-5 h-5" }) => (
     <svg className={className} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
       <polyline points="20 6 9 17 4 12" />
@@ -304,7 +322,128 @@ const useInView = (threshold = 0.1) => {
 // ============================================================================
 // HEADER - Black Minimal
 // ============================================================================
-const Header = () => {
+// ============================================================================
+// AUTH SELECTION MODAL - "عايز تسجل كـ إيه؟"
+// ============================================================================
+const AuthSelectionModal = ({ isOpen, onClose, onSelectType }) => {
+  const modalRef = useRef(null);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleKey = (e) => e.key === 'Escape' && onClose();
+    if (isOpen) {
+      document.addEventListener('keydown', handleKey);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, onClose]);
+
+  // Close on backdrop click
+  const handleBackdropClick = (e) => {
+    if (modalRef.current && !modalRef.current.contains(e.target)) {
+      onClose();
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div 
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      onClick={handleBackdropClick}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in" />
+      
+      {/* Modal */}
+      <div 
+        ref={modalRef}
+        className="relative bg-white rounded-3xl w-full max-w-md p-8 shadow-2xl animate-slide-up z-10"
+        dir="rtl"
+      >
+        {/* Close Button */}
+        <button 
+          onClick={onClose}
+          className="absolute top-4 left-4 w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+        >
+          <Icons.X className="w-5 h-5 text-gray-600" />
+        </button>
+
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-black text-black font-cairo mb-2">
+            عايز تسجل كـ إيه؟
+          </h2>
+          <p className="text-sm text-gray-500 font-cairo">
+            اختار نوع حسابك وابدأ في ثواني
+          </p>
+        </div>
+
+        {/* Choice Cards */}
+        <div className="space-y-4">
+          
+          {/* Option A: Customer */}
+          <button 
+            className="w-full group flex items-center gap-4 p-5 bg-white border-2 border-gray-200 rounded-2xl hover:border-black hover:shadow-lg transition-all duration-200 active:scale-[0.98]"
+            onClick={() => {
+              onClose();
+              onSelectType?.('client');
+            }}
+          >
+            <div className="w-14 h-14 rounded-2xl bg-gray-100 group-hover:bg-black flex items-center justify-center flex-shrink-0 transition-colors">
+              <Icons.User className="w-7 h-7 text-gray-600 group-hover:text-white transition-colors" />
+            </div>
+            <div className="text-right flex-1">
+              <h3 className="text-lg font-black text-black font-cairo">عميل</h3>
+              <p className="text-sm text-gray-500 font-cairo">عايز أحجز خدمات.</p>
+            </div>
+            <Icons.ArrowLeft className="w-5 h-5 text-gray-300 group-hover:text-black transition-colors" />
+          </button>
+
+          {/* Option B: Merchant */}
+          <button 
+            className="w-full group flex items-center gap-4 p-5 bg-white border-2 border-gray-200 rounded-2xl hover:border-black hover:shadow-lg transition-all duration-200 active:scale-[0.98]"
+            onClick={() => {
+              onClose();
+              onSelectType?.('merchant');
+            }}
+          >
+            <div className="w-14 h-14 rounded-2xl bg-gray-100 group-hover:bg-black flex items-center justify-center flex-shrink-0 transition-colors">
+              <Icons.Store className="w-7 h-7 text-gray-600 group-hover:text-white transition-colors" />
+            </div>
+            <div className="text-right flex-1">
+              <h3 className="text-lg font-black text-black font-cairo">تاجر</h3>
+              <p className="text-sm text-gray-500 font-cairo">عايز أدير شغلي.</p>
+            </div>
+            <Icons.ArrowLeft className="w-5 h-5 text-gray-300 group-hover:text-black transition-colors" />
+          </button>
+        </div>
+
+        {/* Footer Note */}
+        <p className="text-center text-xs text-gray-400 font-cairo mt-6">
+          عندك حساب بالفعل؟{' '}
+          <button 
+            onClick={() => {
+              onClose();
+              onSelectType?.('client');
+            }} 
+            className="text-black font-bold hover:underline"
+          >
+            سجل دخول
+          </button>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+// ============================================================================
+// HEADER - Sticky Navbar with Auth Buttons
+// ============================================================================
+const Header = ({ onOpenAuthModal, onLogin }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -315,26 +454,60 @@ const Header = () => {
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-black shadow-lg' : 'bg-black'
+      isScrolled 
+        ? 'bg-white/95 backdrop-blur-md shadow-sm' 
+        : 'bg-black'
     }`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
-          {/* Official Logo */}
+          
+          {/* Right: Brand Logo */}
           <div className="flex items-center gap-2">
             <img 
               src="/booky_logo.png" 
               alt="Booky Center" 
               className="w-10 h-10 object-contain"
             />
-            <span className="text-lg font-black text-white tracking-tight font-cairo">
+            <span className={`text-lg font-black tracking-tight font-cairo transition-colors ${
+              isScrolled ? 'text-black' : 'text-white'
+            }`}>
               Booky Center
             </span>
           </div>
           
-          {/* Desktop Nav */}
-          <button className="hidden md:block px-6 py-2.5 text-sm font-bold bg-white text-black rounded-lg hover:bg-gray-100 transition-all font-cairo">
-            دخول
-          </button>
+          {/* Left: Auth Actions */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            
+            {/* Login Button (Ghost / Text) — Simulates instant login as client */}
+            <button 
+              onClick={onLogin}
+              className={`
+              flex items-center gap-1.5 px-4 py-2 text-sm font-bold rounded-lg
+              transition-all duration-200 font-cairo
+              ${isScrolled 
+                ? 'text-black hover:bg-gray-100' 
+                : 'text-white hover:bg-white/10'
+              }
+            `}>
+              <Icons.LogIn className="w-4 h-4" />
+              <span className="hidden sm:inline">دخول</span>
+            </button>
+
+            {/* Register Button (Primary - Solid Black) */}
+            <button 
+              onClick={onOpenAuthModal}
+              className={`
+                flex items-center gap-1.5 px-5 py-2 text-sm font-bold rounded-full
+                transition-all duration-200 font-cairo active:scale-[0.97]
+                ${isScrolled 
+                  ? 'bg-black text-white hover:bg-gray-800' 
+                  : 'bg-white text-black hover:bg-gray-100'
+                }
+              `}
+            >
+              <span>حساب جديد</span>
+            </button>
+          </div>
         </div>
       </div>
     </header>
@@ -862,7 +1035,7 @@ const TransformationSection = () => {
 
   // The 4 Key Pains vs. Booky Solutions (Condensed for impact)
   const problems = [
-    'مكالمات كتير ومحدش بيرد.',
+    'بحث و مكالمات كتير ومحدش بيرد.',
     'بتروح المشوار وتستنى بالساعات.',
     'أسعار مش واضحة ومفاجآت.',
     'حجزك ضاع في الزحمة.',
@@ -981,11 +1154,12 @@ const TransformationSection = () => {
 };
 
 // ============================================================================
-// PRICING SECTION - Fixed Layout (Desktop Aligned, Mobile Horizontal Scroll)
+// PRICING SECTION - ROBUST CSS GRID ARCHITECTURE (Fail-Safe)
 // ============================================================================
 const PricingSection = () => {
   const [ref, isInView] = useInView(0.15);
-  const [activeSlide, setActiveSlide] = useState(1); // Track active slide for mobile
+  const [activeSlide, setActiveSlide] = useState(0);
+  const scrollRef = useRef(null);
 
   const tiers = [
     {
@@ -1022,10 +1196,23 @@ const PricingSection = () => {
 
   // Handle scroll for mobile dot indicators
   const handleScroll = (e) => {
-    const scrollLeft = e.target.scrollLeft;
-    const cardWidth = e.target.offsetWidth * 0.85;
-    const newActive = Math.round(scrollLeft / cardWidth);
-    setActiveSlide(Math.min(newActive, 2));
+    const container = e.target;
+    const scrollLeft = container.scrollLeft;
+    const cardWidth = container.firstChild?.offsetWidth || 300;
+    const gap = 16;
+    const newActive = Math.round(scrollLeft / (cardWidth + gap));
+    setActiveSlide(Math.min(Math.max(newActive, 0), 2));
+  };
+
+  // Scroll to specific card when dot is clicked
+  const scrollToCard = (index) => {
+    if (scrollRef.current && scrollRef.current.children[index]) {
+      scrollRef.current.children[index].scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center'
+      });
+    }
   };
 
   return (
@@ -1040,114 +1227,97 @@ const PricingSection = () => {
           <p className="text-gray-500 font-cairo text-sm sm:text-base lg:text-lg">ابدأ مجاناً وطور في أي وقت</p>
         </div>
 
-        {/* ========== DESKTOP: Grid Layout (3 columns) ========== */}
-        <div className="hidden md:grid md:grid-cols-3 gap-6 px-4 sm:px-6">
-          {tiers.map((tier, index) => (
-            <div
-              key={tier.name}
-              className={`relative flex flex-col bg-white rounded-3xl p-8 border-2 transition-all duration-700 h-full ${
-                tier.popular ? 'border-black shadow-xl shadow-black/10' : 'border-gray-200'
-              } ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-              style={{ transitionDelay: `${index * 100}ms` }}
-            >
-              {tier.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="px-4 py-1.5 bg-black text-white text-xs font-bold rounded-full font-cairo">
-                    الأكثر طلباً
-                  </span>
-                </div>
-              )}
-
-              {/* Header */}
-              <div className="text-center mb-6">
-                <h3 className="text-xl font-black text-black mb-2 font-cairo">{tier.name}</h3>
-                <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-5xl font-black text-black font-cairo">{tier.price}</span>
-                </div>
-                <p className="text-sm text-gray-500 font-cairo mt-1">{tier.period}</p>
-                <p className="text-xs text-gray-400 font-cairo mt-2">{tier.description}</p>
-              </div>
-
-              {/* Features - flex-grow to push button down */}
-              <ul className="space-y-3 flex-grow">
-                {tier.features.map((feature, i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      tier.popular ? 'bg-black' : 'bg-gray-300'
-                    }`}>
-                      <Icons.Check className="w-3 h-3 text-white" />
-                    </div>
-                    <span className="text-gray-700 font-cairo text-sm">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* CTA Button - mt-auto pushes to bottom */}
-              <div className="mt-8">
-                <button className={`w-full py-4 font-black rounded-xl font-cairo text-base transition-all ${
-                  tier.popular
-                    ? 'bg-black text-white hover:bg-gray-800'
-                    : 'bg-white text-black border-2 border-black hover:bg-black hover:text-white'
-                }`}>
-                  {tier.cta}
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* ========== MOBILE: Horizontal Scroll Snap ========== */}
+        {/* ========== MAIN CONTAINER ========== */}
+        {/* Mobile: Horizontal Snap Scroll | Desktop: 3-Column Grid */}
         <div 
-          className="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 px-4 pb-4 scrollbar-hide"
+          ref={scrollRef}
           onScroll={handleScroll}
+          className="
+            flex gap-4 overflow-x-auto snap-x snap-mandatory px-4 pb-8 scrollbar-hide
+            lg:grid lg:grid-cols-3 lg:gap-8 lg:overflow-visible lg:px-6 lg:pb-0
+          "
         >
           {tiers.map((tier, index) => (
             <div
-              key={tier.name}
-              className={`relative flex-shrink-0 min-w-[85vw] flex flex-col bg-white rounded-3xl p-6 border-2 snap-center ${
-                tier.popular ? 'border-black shadow-xl shadow-black/10' : 'border-gray-200'
-              } ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              key={tier.id}
+              className={`
+                /* ===== MOBILE: Fixed width, no shrink, snap center ===== */
+                w-[90vw] max-w-sm flex-shrink-0 snap-center
+                /* ===== DESKTOP: Full width in grid cell ===== */
+                lg:w-full lg:max-w-none
+                /* ===== CARD STRUCTURE: CSS Grid for perfect alignment ===== */
+                h-auto lg:h-full
+                bg-white rounded-2xl shadow-sm overflow-hidden
+                grid grid-rows-[auto_1fr_auto]
+                transition-all duration-500
+                ${tier.popular 
+                  ? 'border-2 border-black shadow-xl' 
+                  : 'border border-gray-200 hover:border-gray-300 hover:shadow-md'
+                }
+                ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
+              `}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              {tier.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="px-4 py-1.5 bg-black text-white text-xs font-bold rounded-full font-cairo">
+              {/* ========== ROW 1: HEADER (auto height) ========== */}
+              <div className="p-6 pb-4 text-center">
+                {/* Popular Badge */}
+                {tier.popular && (
+                  <div className="bg-black text-white text-xs font-bold py-1.5 px-4 rounded-full inline-block mb-4 font-cairo">
                     الأكثر طلباً
-                  </span>
-                </div>
-              )}
-
-              {/* Header */}
-              <div className="text-center mb-4">
-                <h3 className="text-lg font-black text-black mb-2 font-cairo">{tier.name}</h3>
+                  </div>
+                )}
+                
+                {/* Plan Name */}
+                <h3 className="text-xl font-black text-black font-cairo mb-3">
+                  {tier.name}
+                </h3>
+                
+                {/* Price */}
                 <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-4xl font-black text-black font-cairo">{tier.price}</span>
+                  <span className="text-5xl font-black text-black font-cairo">
+                    {tier.price}
+                  </span>
+                  {tier.price !== '0' && (
+                    <span className="text-base text-gray-500 font-cairo">ج.م</span>
+                  )}
                 </div>
+                
+                {/* Period */}
                 <p className="text-sm text-gray-500 font-cairo mt-1">{tier.period}</p>
-                <p className="text-xs text-gray-400 font-cairo mt-2">{tier.description}</p>
+                
+                {/* Description */}
+                <p className="text-xs text-gray-400 font-cairo mt-3 leading-relaxed">
+                  {tier.description}
+                </p>
               </div>
 
-              {/* Features */}
-              <ul className="space-y-3 flex-grow">
-                {tier.features.map((feature, i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      tier.popular ? 'bg-black' : 'bg-gray-300'
-                    }`}>
-                      <Icons.Check className="w-3 h-3 text-white" />
-                    </div>
-                    <span className="text-gray-700 font-cairo text-sm">{feature}</span>
-                  </li>
-                ))}
-              </ul>
+              {/* ========== ROW 2: FEATURES (1fr - takes remaining space) ========== */}
+              <div className="px-6 py-2">
+                <ul className="space-y-3">
+                  {tier.features.map((feature, i) => (
+                    <li key={i} className="flex items-center gap-3">
+                      <div className={`
+                        w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0
+                        ${tier.popular ? 'bg-black' : 'bg-gray-200'}
+                      `}>
+                        <Icons.Check className="w-3 h-3 text-white" />
+                      </div>
+                      <span className="text-gray-700 font-cairo text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-              {/* CTA Button */}
-              <div className="mt-6">
-                <button className={`w-full py-3.5 font-black rounded-xl font-cairo text-base transition-all ${
-                  tier.popular
-                    ? 'bg-black text-white hover:bg-gray-800'
+              {/* ========== ROW 3: CTA BUTTON (auto height - always at bottom) ========== */}
+              <div className="p-6 pt-4">
+                <button className={`
+                  w-full py-3 rounded-xl font-bold font-cairo text-base
+                  transition-all duration-200 active:scale-[0.98]
+                  ${tier.popular
+                    ? 'bg-black text-white hover:bg-gray-900'
                     : 'bg-white text-black border-2 border-black hover:bg-black hover:text-white'
-                }`}>
+                  }
+                `}>
                   {tier.cta}
                 </button>
               </div>
@@ -1155,14 +1325,20 @@ const PricingSection = () => {
           ))}
         </div>
 
-        {/* Mobile Dot Indicators */}
-        <div className="md:hidden flex justify-center gap-2 mt-4">
+        {/* Mobile Dot Indicators (Clickable Navigation) */}
+        <div className="lg:hidden flex justify-center gap-3 mt-2">
           {tiers.map((tier, index) => (
-            <div 
+            <button
               key={tier.id}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                activeSlide === index ? 'bg-black w-6' : 'bg-gray-300'
-              }`}
+              onClick={() => scrollToCard(index)}
+              className={`
+                h-2 rounded-full transition-all duration-300 
+                ${activeSlide === index 
+                  ? 'bg-black w-8' 
+                  : 'bg-gray-300 w-2 hover:bg-gray-400'
+                }
+              `}
+              aria-label={`Go to ${tier.name}`}
             />
           ))}
         </div>
@@ -1176,7 +1352,7 @@ const PricingSection = () => {
 // ============================================================================
 const Footer = () => {
   return (
-    <footer className="bg-black py-16 pb-24 md:pb-16">
+    <footer className="bg-black py-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid md:grid-cols-3 gap-12 items-center">
           {/* Official Logo */}
@@ -1222,7 +1398,11 @@ const Footer = () => {
             © 2026 Booky Center. جميع الحقوق محفوظة.
           </p>
           <p className="text-sm text-gray-500 font-cairo">
-            جزء من سوق عالمي بقيمة <span className="text-white font-bold underline">627 مليار دولار</span>
+            بوكي سنتر
+            <br/>
+            ميعادك في جيبك بضغطة واحدة
+            <br/>
+            رقم التسجيل الضريبي 998-345-455
           </p>
         </div>
       </div>
@@ -1233,49 +1413,31 @@ const Footer = () => {
 // ============================================================================
 // MOBILE BOTTOM NAVIGATION
 // ============================================================================
-const MobileBottomNav = () => {
-  const [activeTab, setActiveTab] = useState('home');
-
-  const tabs = [
-    { id: 'home', label: 'الرئيسية', icon: Icons.Home },
-    { id: 'bookings', label: 'حجوزاتي', icon: Icons.Calendar },
-    { id: 'account', label: 'حسابي', icon: Icons.User },
-  ];
-
-  return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 md:hidden safe-area-bottom">
-      <div className="flex items-center justify-around h-16">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`relative flex flex-col items-center justify-center flex-1 h-full transition-colors ${
-              activeTab === tab.id ? 'text-black' : 'text-gray-400'
-            }`}
-          >
-            <tab.icon className="w-6 h-6" />
-            <span className="text-xs font-bold mt-1 font-cairo">{tab.label}</span>
-          </button>
-        ))}
-      </div>
-    </nav>
-  );
-};
-
 // ============================================================================
 // MAIN LANDING PAGE
 // ============================================================================
-const LandingPage = () => {
+const LandingPage = ({ onSelectType }) => {
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-white font-cairo" dir="rtl">
-      <Header />
+      <Header 
+        onOpenAuthModal={() => setIsAuthModalOpen(true)} 
+        onLogin={() => onSelectType?.('client')}
+      />
       <HeroSection />
       <DecisionSection />
       <ServiceGalaxy />
       <TransformationSection />
       <PricingSection />
       <Footer />
-      <MobileBottomNav />
+
+      {/* Auth Selection Modal */}
+      <AuthSelectionModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)}
+        onSelectType={onSelectType}
+      />
     </div>
   );
 };
