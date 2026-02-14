@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import ClientHome from './pages/ClientHome';
 import MerchantLayout from './layouts/MerchantLayout';
+import SearchResults from './pages/SearchResults';
 
 /**
  * ============================================================================
  * BOOKY CENTER — App Root (The Journey Switcher)
  * ============================================================================
  *
- * State Machine:
+ * Routing (react-router-dom v6):
+ *   /         → Landing Page (Visitor) -or- Client / Merchant view
+ *   /search   → SearchResults Page (accepts ?lat=&lng=&category=)
+ *
+ * State Machine (for / route):
  *   userType === null       → Landing Page (Visitor)
  *   userType === 'client'   → Client Dashboard (Social Feed)
  *   userType === 'merchant' → Merchant Dashboard (Placeholder)
@@ -30,8 +36,9 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
-  return (
-    <div className="App">
+  // ── Home view based on userType state machine ──
+  const HomeView = () => (
+    <>
       {/* ── VISITOR: Landing Page ── */}
       {userType === null && (
         <LandingPage onSelectType={(type) => setUserType(type)} />
@@ -46,6 +53,15 @@ function App() {
       {userType === 'merchant' && (
         <MerchantLayout onLogout={handleLogout} />
       )}
+    </>
+  );
+
+  return (
+    <div className="App">
+      <Routes>
+        <Route path="/" element={<HomeView />} />
+        <Route path="/search" element={<SearchResults />} />
+      </Routes>
     </div>
   );
 }
