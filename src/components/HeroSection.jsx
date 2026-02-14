@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLoadScript } from '@react-google-maps/api';
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from 'use-places-autocomplete';
+import BrandedPattern from './BrandedPattern';
 
 /**
  * ============================================================================
@@ -147,22 +149,66 @@ const HeroIllustration = ({ className = '', isLoaded = false }) => (
 );
 
 // ============================================================================
-// TOAST NOTIFICATION — Subtle, auto-dismiss, RTL-aware
+// BOOKY TOAST — Branded, Friendly, Pill-Shaped Notification
 // ============================================================================
-const Toast = ({ message, onDismiss }) => (
+//
+//  ┌─────────────────────────────────────────────┐
+//  │  [B logo]   عشان نجيلك لحد عندك …   [✕]   │
+//  └─────────────────────────────────────────────┘
+//
+// Position : Fixed bottom-10 (mob) / bottom-8 (lg), centered, z-[100]
+// Shape    : rounded-full (pill)
+// Colour   : Pure white, shadow-2xl shadow-black/20, border-gray-100
+// Animation: Slide-up + fade-in via CSS @keyframes (defined inline)
+// Auto-dismiss after 3 s  (timer lives in the parent HeroSection)
+// ============================================================================
+
+const BookyToast = ({ message, onDismiss }) => (
   <div
-    className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] animate-slide-up"
+    className="fixed bottom-10 sm:bottom-8 left-1/2 z-[100] pointer-events-none"
+    style={{
+      transform: 'translateX(-50%)',
+      animation: 'bookyToastIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+    }}
     role="alert"
     dir="rtl"
   >
-    <div className="flex items-center gap-3 px-5 py-3.5 bg-white text-black rounded-2xl shadow-2xl ring-1 ring-black/10 font-cairo font-semibold text-sm min-w-[280px]">
-      <Icons.AlertCircle className="w-5 h-5 text-black flex-shrink-0" />
-      <span className="flex-1">{message}</span>
+    {/* Inline keyframes — injected once, scoped to this component */}
+    <style>{`
+      @keyframes bookyToastIn {
+        0%   { opacity: 0; transform: translateX(-50%) translateY(20px) scale(0.95); }
+        100% { opacity: 1; transform: translateX(-50%) translateY(0)    scale(1);    }
+      }
+    `}</style>
+
+    <div
+      className="
+        pointer-events-auto
+        flex items-center gap-3
+        px-5 sm:px-6 py-3 sm:py-3.5
+        bg-white
+        rounded-full
+        shadow-2xl shadow-black/20
+        border border-gray-100
+        font-cairo font-semibold text-sm sm:text-base
+        min-w-[260px] sm:min-w-[320px] max-w-[92vw]
+      "
+    >
+      {/* ── Brand Logo (right side in RTL) ── */}
+      <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center flex-shrink-0">
+        <span className="text-white text-xs font-black leading-none select-none">B</span>
+      </div>
+
+      {/* ── Message ── */}
+      <span className="flex-1 text-black leading-snug">{message}</span>
+
+      {/* ── Dismiss ── */}
       <button
         onClick={onDismiss}
         className="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center flex-shrink-0 transition-colors"
+        aria-label="إغلاق"
       >
-        <Icons.X className="w-3.5 h-3.5 text-gray-500" />
+        <Icons.X className="w-3.5 h-3.5 text-gray-400" />
       </button>
     </div>
   </div>
@@ -268,9 +314,9 @@ const PlacesAutocompleteInput = ({ onSelect, isScriptLoaded }) => {
       : 'جاري التهيئة...';
 
   return (
-    <div ref={wrapperRef} className="relative flex-1 border-b lg:border-b-0 lg:border-l border-gray-100">
-      {/* Input Row */}
-      <div className="flex items-center gap-3 px-4 h-14">
+    <div ref={wrapperRef} className="relative">
+      {/* Input Row — taller on lg to match ticket luxury spacing */}
+      <div className="flex items-center gap-3 px-5 sm:px-6 h-11 sm:h-12">
         <Icons.MapPin className={`w-5 h-5 flex-shrink-0 ${ready ? 'text-black' : 'text-gray-300'}`} />
 
         {/* Skeleton pulse while script loads, real input once available */}
@@ -369,8 +415,8 @@ const PlacesAutocompleteInput = ({ onSelect, isScriptLoaded }) => {
 // ERROR STATE — Shown when Google Maps script fails to load
 // ============================================================================
 const MapsLoadError = () => (
-  <div className="relative flex-1 border-b lg:border-b-0 lg:border-l border-gray-100">
-    <div className="flex items-center gap-3 px-4 h-14">
+  <div className="relative">
+    <div className="flex items-center gap-3 px-5 sm:px-6 h-11 sm:h-12">
       <Icons.WifiOff className="w-5 h-5 text-red-400 flex-shrink-0" />
       <span className="font-cairo text-sm text-red-400">
         تعذر تحميل الخريطة — جرب تاني
@@ -409,12 +455,12 @@ const SectorDropdown = ({ value, onChange }) => {
   const selectedOption = SECTOR_OPTIONS.find((opt) => opt.value === value);
 
   return (
-    <div ref={dropdownRef} className="relative flex-1 border-b lg:border-b-0">
+    <div ref={dropdownRef} className="relative">
       {/* Trigger */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full h-14 flex items-center justify-between gap-2 px-4 bg-transparent hover:bg-gray-50/80 transition-colors border-none outline-none focus:outline-none"
+        className="w-full h-11 sm:h-12 flex items-center justify-between gap-2 px-5 sm:px-6 bg-transparent hover:bg-gray-50/80 transition-colors border-none outline-none focus:outline-none"
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-label="اختر نوع الخدمة"
@@ -479,6 +525,8 @@ const SectorDropdown = ({ value, onChange }) => {
 // HERO SECTION — Main Component
 // ============================================================================
 const HeroSection = () => {
+  const navigate = useNavigate();
+
   // ── State ──
   const [selectedLocation, setSelectedLocation] = useState({
     address: '',
@@ -534,11 +582,11 @@ const HeroSection = () => {
   // ── Search button handler (validation + redirect) ──
   const handleSearch = useCallback(() => {
     if (!selectedLocation.lat || !selectedLocation.lng) {
-      showToast('📍 اختار المنطقة الأول عشان نعرف نوصلك');
+      showToast('عشان نجيبلك لحد عندك، اختار منطقتك الأول 📍');
       return;
     }
     if (!selectedService) {
-      showToast('🏷️ اختار نوع الخدمة اللي محتاجها');
+      showToast('نسيت تختار الخدمة اللي محتاجها 😉');
       return;
     }
 
@@ -548,25 +596,22 @@ const HeroSection = () => {
       category: selectedService,
     });
 
-    window.location.href = `/search?${params.toString()}`;
-  }, [selectedLocation, selectedService, showToast]);
+    navigate(`/search?${params.toString()}`);
+  }, [selectedLocation, selectedService, showToast, navigate]);
 
   // ========================================================================
   // RENDER
   // ========================================================================
   return (
     <section className="relative bg-black pt-16 min-h-[100svh] lg:h-screen lg:max-h-screen">
-      {/* ── Abstract Pattern Background ── */}
-      <div className="absolute inset-0 opacity-5 z-0">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at 20% 50%, white 1px, transparent 1px),
-                             radial-gradient(circle at 80% 30%, white 1px, transparent 1px)`,
-            backgroundSize: '100px 100px',
-          }}
-        />
-      </div>
+      {/* ── Branded SVG Pattern + Vignette (WhatsApp-chat-style) ── */}
+      {/*
+          BrandedPattern renders two internal layers at z-0:
+            1. Tiling SVG doodle icons (ticket, ball, controller, scissors, tooth)
+            2. Radial vignette mask — clear center, dimmed edges
+          Main content sits above at z-10.
+      */}
+      <BrandedPattern opacity={0.2} />
 
       {/* ── Main Container ── */}
       <div className="relative h-full max-w-6xl mx-auto px-4 sm:px-6 flex flex-col justify-center z-10">
@@ -618,60 +663,113 @@ const HeroSection = () => {
               </span>
             </p>
 
-            {/* ========== SEARCH HUB ========== */}
+            {/* ========== SEARCH HUB — "Booking Ticket" ========== */}
+            {/*
+                Design: Physical reservation-ticket metaphor.
+                - Rounded-3xl with heavy float shadow
+                - Field labels above each input (luxury = space)
+                - Dashed "tear-off" divider with ticket notch circles
+                - Desktop: horizontal strip  |  Mobile: stacked card
+            */}
             <div
-              className={`relative z-50 bg-white rounded-2xl shadow-2xl shadow-black/50 transition-all duration-700 delay-500 ${
+              className={`relative z-50 bg-white rounded-3xl shadow-2xl shadow-black/50 overflow-visible transition-all duration-700 delay-500 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
             >
               <div className="flex flex-col lg:flex-row lg:items-stretch">
 
-                {/* ── 1. Location: Google Places Autocomplete ── */}
+                {/* ═══════════ TICKET FIELD 1: Location ═══════════ */}
+                <div className="flex-1 relative">
+                  {/* Field Label */}
+                  <p
+                    className="text-[10px] sm:text-[11px] font-bold text-gray-400/80 uppercase tracking-wider font-cairo px-5 sm:px-6 pt-4 lg:pt-3.5"
+                    dir="rtl"
+                  >
+                     المنطقة
+                  </p>
+                  {/*
+                      Three states:
+                      A) loadError       → MapsLoadError  (graceful failure)
+                      B) !isGoogleLoaded → PlacesAutocompleteInput skeleton
+                      C) isGoogleLoaded  → PlacesAutocompleteInput fully active
+                  */}
+                  {loadError ? (
+                    <MapsLoadError />
+                  ) : (
+                    <PlacesAutocompleteInput
+                      onSelect={handlePlaceSelect}
+                      isScriptLoaded={isGoogleLoaded}
+                    />
+                  )}
+                  {/* Bottom breathing room on mobile before divider */}
+                  <div className="h-1 lg:hidden" />
+                </div>
+
+                {/* ═══════════ DASHED TEAR-OFF DIVIDER (Mobile) ═══════════ */}
                 {/*
-                    Three states:
-                    A) loadError          → MapsLoadError  (graceful failure)
-                    B) !isGoogleLoaded    → PlacesAutocompleteInput skeleton mode
-                    C) isGoogleLoaded     → PlacesAutocompleteInput fully active
+                    Classic ticket "perforation" line.
+                    Two half-circle notches punched at the edges create the
+                    illusion of a real tear-off stub. The notch bg matches
+                    the section background (black hero) so they look like
+                    holes through the ticket.
                 */}
-                {loadError ? (
-                  <MapsLoadError />
-                ) : (
-                  <PlacesAutocompleteInput
-                    onSelect={handlePlaceSelect}
-                    isScriptLoaded={isGoogleLoaded}
+                <div className="relative lg:hidden" aria-hidden="true">
+                  {/* Left notch */}
+                  <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-black rounded-full z-10" />
+                  {/* Right notch */}
+                  <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-black rounded-full z-10" />
+                  {/* Dashed perforation line — branded red */}
+                  <div className="border-t-2 border-dashed border-red-500/40 mx-6" />
+                </div>
+
+                {/* ═══════════ DASHED DIVIDER (Desktop — vertical) ═══════════ */}
+                <div className="hidden lg:flex items-stretch py-3.5" aria-hidden="true">
+                  <div className="border-l-2 border-dashed border-red-500/40" />
+                </div>
+
+                {/* ═══════════ TICKET FIELD 2: Service Category ═══════════ */}
+                <div className="flex-1 relative">
+                  {/* Field Label */}
+                  <p
+                    className="text-[10px] sm:text-[11px] font-bold text-gray-400/80 uppercase tracking-wider font-cairo px-5 sm:px-6 pt-3 lg:pt-3.5"
+                    dir="rtl"
+                  >
+                     الخدمة
+                  </p>
+                  <SectorDropdown
+                    value={selectedService}
+                    onChange={setSelectedService}
                   />
-                )}
+                </div>
 
-                {/* ── 2. Sector Dropdown ── */}
-                <SectorDropdown
-                  value={selectedService}
-                  onChange={setSelectedService}
-                />
-
-                {/* ── 3. Search Button (Solid Uber-Style with Shadow Lift) ── */}
-                <button
-                  type="button"
-                  onClick={handleSearch}
-                  className="
-                    h-14 px-8
-                    bg-black text-white
-                    flex items-center justify-center gap-2
-                    font-bold font-cairo
-                    shadow-lg shadow-black/20
-                    hover:shadow-xl hover:-translate-y-0.5
-                    active:translate-y-0 active:shadow-lg active:scale-[0.98]
-                    transition-all duration-200 ease-out
-                    rounded-b-2xl lg:rounded-b-none lg:rounded-l-2xl
-                    border-none outline-none ring-0 focus:ring-0 focus:outline-none
-                    relative overflow-hidden
-                    group
-                  "
-                >
-                  {/* Subtle hover shine effect */}
-                  <div className="absolute inset-0 bg-gradient-to-l from-white/0 via-white/5 to-white/0 translate-x-full group-hover:translate-x-[-100%] transition-transform duration-700" />
-                  <Icons.Search className="w-5 h-5 text-white relative z-10" />
-                  <span className="relative z-10">ابحث دلوقتي</span>
-                </button>
+                {/* ═══════════ SEARCH BUTTON (inside the ticket) ═══════════ */}
+                <div className="px-3 pb-3 pt-1 lg:p-2 lg:pl-2">
+                  <button
+                    type="button"
+                    onClick={handleSearch}
+                    className="
+                      w-full lg:w-auto
+                      h-12 lg:h-full
+                      px-8
+                      bg-black text-white
+                      flex items-center justify-center gap-2
+                      font-bold font-cairo
+                      shadow-lg shadow-black/20
+                      hover:shadow-xl hover:-translate-y-0.5
+                      active:translate-y-0 active:shadow-lg active:scale-[0.98]
+                      transition-all duration-200 ease-out
+                      rounded-xl lg:rounded-2xl
+                      border-none outline-none ring-0 focus:ring-0 focus:outline-none
+                      relative overflow-hidden
+                      group
+                    "
+                  >
+                    {/* Subtle hover shine effect */}
+                    <div className="absolute inset-0 bg-gradient-to-l from-white/0 via-white/5 to-white/0 translate-x-full group-hover:translate-x-[-100%] transition-transform duration-700" />
+                    <Icons.Search className="w-5 h-5 text-white relative z-10" />
+                    <span className="relative z-10">ابحث دلوقتي</span>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -701,8 +799,8 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* ── Toast Notification ── */}
-      {toast && <Toast message={toast} onDismiss={() => setToast(null)} />}
+      {/* ── Branded Toast Notification ── */}
+      {toast && <BookyToast message={toast} onDismiss={() => setToast(null)} />}
     </section>
   );
 };
