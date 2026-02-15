@@ -1,37 +1,34 @@
-# 05_PAYMENT_PAYOUT_GATEWAYS
+# 📂 05-Core Systems: Payment Gateway Architecture
 
-## The Complete Payment & Payout Architecture for the Egyptian Market
+## *The Complete Payment & Payout Architecture for the Egyptian Market*
 
-**Document Version:** 1.0
-**Last Updated:** February 14, 2026
-**Classification:** Business Logic — Financial Operations & Payment Integrations
-**Author:** Product Architecture & Finance Team
-**Depends On:** [`BOOKY_CENTER_BUSINESS_MASTER.md`](../BOOKY_CENTER_BUSINESS_MASTER.md) (v6.0)
-**Cross-References:** [`04_SUBSCRIPTION_LOYALTY_MATH.md`](04_SUBSCRIPTION_LOYALTY_MATH.md) (Booky Coins interaction), [`02_MERCHANT_ONBOARDING_FLOW.md`](02_MERCHANT_ONBOARDING_FLOW.md) (Trial Mode payment restrictions)
+**Parent:** [BOOKY_CENTER_BUSINESS_MASTER.md](mdc:docs/BOOKY_CENTER_BUSINESS_MASTER.md)
+**Cross-References:** [wallet-and-payouts.md](mdc:docs/business-logic/03-merchant/wallet-and-payouts.md) (Merchant Wallet & Payouts), [booking-lifecycle.md](mdc:docs/business-logic/02-client/booking-lifecycle.md) (Deposit & Cancellation), [financial-oversight.md](mdc:docs/business-logic/04-admin-platform/financial-oversight.md) (Revenue & Fraud), [loyalty-and-subscription-math.md](mdc:docs/business-logic/05-core-systems/loyalty-and-subscription-math.md) (Booky Coins Interaction)
+**Version:** 1.0 | **Date:** February 15, 2026
 
 ---
 
 ## Table of Contents
 
-1. [The Egyptian Payment Landscape (Context)](#1-the-egyptian-payment-landscape-context)
+1. [The Egyptian Payment Landscape](#1-the-egyptian-payment-landscape)
 2. [Payment Methods — Client Side](#2-payment-methods--client-side)
 3. [Cash on Arrival — Logic & No-Show Tracking](#3-cash-on-arrival--logic--no-show-tracking)
 4. [Online Payments — Card / Meeza Integration](#4-online-payments--card--meeza-integration)
 5. [Mobile Wallets — Vodafone Cash & InstaPay](#5-mobile-wallets--vodafone-cash--instapay)
 6. [The Deposit (العربون) System — Detailed Logic](#6-the-deposit-العربون-system--detailed-logic)
-7. [Online Payment Loyalty Bonus (+5% Coins)](#7-online-payment-loyalty-bonus-5-coins)
-8. [The Merchant Wallet (Earnings Dashboard)](#8-the-merchant-wallet-earnings-dashboard)
-9. [Merchant Payout (Withdrawal) Logic](#9-merchant-payout-withdrawal-logic)
-10. [Commission Model — Auto-Deduction vs. Invoicing](#10-commission-model--auto-deduction-vs-invoicing)
-11. [Refund & Cancellation Logic](#11-refund--cancellation-logic)
-12. [Payment Gateway Integration Plan](#12-payment-gateway-integration-plan)
-13. [Reconciliation & Financial Controls](#13-reconciliation--financial-controls)
-14. [Data Model — Financial Tables](#14-data-model--financial-tables)
+7. [Online Payment Loyalty Bonus (+5% Booky Coins)](#7-online-payment-loyalty-bonus-5-booky-coins)
+8. [Commission Model — Auto-Deduction vs. Invoicing](#8-commission-model--auto-deduction-vs-invoicing)
+9. [Refund & Cancellation Logic](#9-refund--cancellation-logic)
+10. [Payment Gateway Integration Plan](#10-payment-gateway-integration-plan)
+11. [Reconciliation & Financial Controls](#11-reconciliation--financial-controls)
+12. [Data Model — Financial Tables](#12-data-model--financial-tables)
+13. [Gherkin Scenarios](#13-gherkin-scenarios)
+14. [Edge Cases](#14-edge-cases)
 15. [Acceptance Criteria](#15-acceptance-criteria)
 
 ---
 
-## 1. The Egyptian Payment Landscape (Context)
+## 1. The Egyptian Payment Landscape
 
 ### Reality Check: Cash is Still King
 
@@ -92,7 +89,7 @@
 | **Debit Card** | بطاقة خصم | ✅ | ✅ | ❌ | ✅ (to card) |
 | **Meeza Card** | بطاقة ميزة | ✅ | ✅ | ❌ | ✅ (to card) |
 | **Fawry** | فوري | ✅ (reference code) | ✅ | ❌ | ✅ (Fawry credit) |
-| **Booky Coins** | كوينز بوكي | ❌ (cannot pay Deposits) | Partial (max 30%) | ❌ | ✅ (Coins refunded) |
+| **Booky Coins** | كوينز بوكي | ❌ (cannot pay Deposits) | Partial (max 30%) | ❌ | ✅ (Booky Coins refunded) |
 
 ### Payment Selection Flow (Checkout)
 
@@ -127,7 +124,7 @@ CLIENT AT CHECKOUT
 │                                                              │
 │  ┌─ خصم كوينز بوكي ────────────────────────────────────┐    │
 │  │                                                      │    │
-│  │  رصيدك: 🪙 750 Coins                                │    │
+│  │  رصيدك: 🪙 750 Booky Coins                          │    │
 │  │  [ ○ استخدم كوينز ] → Max 30% of Booking value      │    │
 │  │                                                      │    │
 │  └──────────────────────────────────────────────────────┘    │
@@ -164,9 +161,9 @@ BOOKING CONFIRMED (status: PENDING → CONFIRMED)
 CLIENT ARRIVES AT MERCHANT
          │
          ├─ Client shows up → Merchant marks COMPLETED
-         │       → Coins earned (24h delay)
+         │       → Booky Coins earned (24h delay)
          │       → Merchant collects cash directly
-         │       → Platform commission: INVOICED monthly (see §10)
+         │       → Platform commission: INVOICED monthly (see §8)
          │
          └─ Client NO-SHOWS → Merchant marks NO_SHOW
                  → Client notified: "⚠️ تم تسجيل عدم حضورك"
@@ -198,7 +195,7 @@ NO-SHOW #2:
 
 NO-SHOW #3 (in 30 days):
   → Notification: "❌ اتخفضت رتبتك بسبب عدم الحضور المتكرر."
-  → Rank demotion by one level
+  → Rank demotion by one Rank
   → "Cash on Arrival" requires Deposit for 60 days (forced digital)
 
 NO-SHOW #5+ (in 90 days):
@@ -210,9 +207,9 @@ NO-SHOW #5+ (in 90 days):
 
 ### Why Cash Must Stay
 
-> **Egyptian Reality:** Removing cash alienates 72% of the population. Instead, we use **behavioral nudges** to shift users toward digital:
+> **Egyptian Reality:** Removing cash alienates 72% of the population. Instead, we use **behavioral nudges** to shift Clients toward digital:
 > - "+5% كوينز إضافية" badge on all digital methods.
-> - Cash users see: "💡 لو دفعت أونلاين، هتكسب كوينز أكتر!" on every checkout.
+> - Cash Clients see: "💡 لو دفعت أونلاين، هتكسب كوينز أكتر!" on every checkout.
 > - Post-Booking: "لو دفعت أونلاين المرة الجاية، هتكسب [X] كوينز بدل [Y]."
 
 ---
@@ -260,9 +257,9 @@ PAYMOB → Webhook to Booky: TRANSACTION_RESULT
          │
          ├─ SUCCESS:
          │    → Booking status: CONFIRMED
-         │    → Deposit held in Booky escrow
+         │    → Deposit held in Booky Escrow
          │    → Client notification: "✅ تم تأكيد حجزك — العربون [X] ج.م"
-         │    → +5% bonus Coins flagged for post-completion
+         │    → +5% bonus Booky Coins flagged for post-completion
          │
          └─ FAILURE:
               → Booking stays PENDING (3-minute hold on Slot)
@@ -449,7 +446,7 @@ def calculate_deposit(service_price, sector_id, service_flags):
 
     # Events can be up to 100% for weddings/large events
     if sector_id == 'events' and service_flags.get('is_high_ticket'):
-        deposit = service_price  # 100% deposit
+        deposit = service_price  # 100% Deposit
 
     return {
         'required': True,
@@ -466,10 +463,10 @@ def calculate_deposit(service_price, sector_id, service_flags):
 | **Payment Methods** | Digital ONLY: VF Cash, InstaPay, Card, Meeza, Fawry |
 | **Cash for Deposits** | ❌ NEVER. Deposits must create a digital audit trail. |
 | **Booky Coins for Deposits** | ❌ NEVER. Deposits must be real money. |
-| **Deposit on Discounted Price?** | ❌ Deposit = % of ORIGINAL price (before Coin discounts). See Math doc §4.4. |
+| **Deposit on Discounted Price?** | ❌ Deposit = % of ORIGINAL price (before Booky Coins discounts). |
 | **Minimum Deposit** | 10 EGP (even if percentage calculates lower) |
 | **Maximum Deposit** | 100% of Service price (Events Sector only) |
-| **Deposit Hold** | In Booky escrow account (not released to Merchant until completion) |
+| **Deposit Hold** | In Booky Escrow account (not released to Merchant until completion) |
 
 ### Deposit Lifecycle
 
@@ -507,7 +504,7 @@ SECTOR: Events & Celebrations
 DEPOSIT: 50% = 12,500 EGP
 
 BOOKING FLOW:
-  1. Client selects wedding package (25,000 EGP)
+  1. Client selects wedding Service (25,000 EGP)
   2. Deposit required: 12,500 EGP (50%)
   3. Cash NOT available — must pay Deposit digitally
   4. Client pays 12,500 EGP via InstaPay
@@ -521,7 +518,7 @@ IF CLIENT CANCELS:
 IF CLIENT SHOWS:
   • 12,500 EGP applied to bill
   • Remaining 12,500 EGP paid at venue (any method)
-  • Coins earned on full 25,000 EGP ✅
+  • Booky Coins earned on full 25,000 EGP ✅
 
 IF CLIENT NO-SHOWS:
   • 12,500 EGP released to Merchant
@@ -531,7 +528,7 @@ IF CLIENT NO-SHOWS:
 
 ---
 
-## 7. Online Payment Loyalty Bonus (+5% Coins)
+## 7. Online Payment Loyalty Bonus (+5% Booky Coins)
 
 ### The Incentive
 
@@ -541,28 +538,28 @@ IF CLIENT NO-SHOWS:
 
 ```
 NORMAL EARNING (Cash):
-  Booking 200 EGP × 1x (Free tier) = 200 Coins
+  Booking 200 EGP × 1x (Free tier) = 200 Booky Coins
 
 WITH ONLINE BONUS:
-  Booking 200 EGP × 1x (Free tier) = 200 Coins
-  +5% online bonus: 200 × 0.05 = +10 Coins
-  Total: 210 Coins ✅
+  Booking 200 EGP × 1x (Free tier) = 200 Booky Coins
+  +5% online bonus: 200 × 0.05 = +10 Booky Coins
+  Total: 210 Booky Coins ✅
 
 WITH VIP MULTIPLIER + ONLINE BONUS:
-  Booking 200 EGP × 5x (VIP tier) = 1,000 Coins
-  +5% online bonus: 1,000 × 0.05 = +50 Coins
-  Total: 1,050 Coins 🔥
+  Booking 200 EGP × 5x (VIP tier) = 1,000 Booky Coins
+  +5% online bonus: 1,000 × 0.05 = +50 Booky Coins
+  Total: 1,050 Booky Coins 🔥
 ```
 
 ### Rules
 
 | Rule | Value |
 |------|-------|
-| **Bonus Rate** | +5% of Coins earned from that Booking |
+| **Bonus Rate** | +5% of Booky Coins earned from that Booking |
 | **Applied After Multiplier** | Yes — bonus calculated on multiplied amount |
 | **Eligible Methods** | All non-cash: VF Cash, InstaPay, Card, Meeza, Fawry |
 | **Cash Eligible?** | ❌ No (incentive to go digital) |
-| **Booky Coins Partial Pay** | If Client uses Coins + digital method, bonus applies to digital portion |
+| **Booky Coins Partial Pay** | If Client uses Booky Coins + digital method, bonus applies to digital portion |
 | **Display** | Green badge on digital methods: "اكسب +٥٪ كوينز إضافية" |
 | **Ledger Entry** | `type: 'earn_online_bonus'`, separate from main earning |
 
@@ -576,143 +573,7 @@ WITH VIP MULTIPLIER + ONLINE BONUS:
 
 ---
 
-## 8. The Merchant Wallet (Earnings Dashboard)
-
-### What It Is
-
-> The Merchant Wallet is a real-time earnings dashboard inside the Merchant Dashboard. It shows every pound earned, every commission deducted, and every payout made.
-
-### Wallet Dashboard Layout
-
-```
-┌──────────────────────────────────────────────────────────────┐
-│              💰 محفظة التاجر — لوحة الأرباح                  │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│   الرصيد المتاح للسحب:                                      │
-│   ┌────────────────────────────────────┐                     │
-│   │         2,450 ج.م                  │                     │
-│   │   [ 🔴 اسحب الرصيد ]              │                     │
-│   └────────────────────────────────────┘                     │
-│                                                              │
-│   الرصيد المعلق (في الانتظار):                              │
-│   ┌────────────────────────────────────┐                     │
-│   │         850 ج.م                    │                     │
-│   │   ⏳ يتحرر خلال 24-48 ساعة         │                     │
-│   └────────────────────────────────────┘                     │
-│                                                              │
-│   ── ملخص الشهر ──                                          │
-│                                                              │
-│   إجمالي الإيرادات:        12,500 ج.م                       │
-│   عمولة بوكي:              -  625 ج.م  (5%)                 │
-│   صافي الأرباح:            11,875 ج.م                       │
-│   تم سحبه:                  9,425 ج.م                       │
-│   متبقي:                    2,450 ج.م                       │
-│                                                              │
-│   ── آخر الحركات ──                                         │
-│                                                              │
-│   +200 ج.م   حجز #BK-260214-0023 — أحمد م.    اليوم        │
-│   -10 ج.م    عمولة بوكي (5%)                    اليوم        │
-│   +150 ج.م   حجز #BK-260213-0087 — سارة ك.    أمبارح       │
-│   -3,000 ج.م سحب → فودافون كاش               أمبارح       │
-│   +500 ج.م   عربون محتجز ← عدم حضور          ١٢ فبراير     │
-│                                                              │
-│   [ عرض كل الحركات → ]                                      │
-│                                                              │
-│   ── تقرير شهري ──                                          │
-│   [ 📥 تحميل PDF ]  [ 📊 تحميل CSV ]                        │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
-```
-
-### Wallet Balance Types
-
-| Balance Type | Definition | When It Changes |
-|-------------|------------|-----------------|
-| **Available Balance** (الرصيد المتاح) | Funds the Merchant can withdraw immediately. | After settlement period (24-48h post Booking completion). |
-| **Pending Balance** (الرصيد المعلق) | Deposits and payments being held in escrow. | Created when Booking confirmed. Released to Available after completion. |
-| **Total Earnings** (إجمالي الإيرادات) | Lifetime gross revenue. | Every completed Booking. |
-| **Commission Deducted** (عمولة بوكي) | Platform fee already subtracted. | Auto-deducted on digital payments. |
-
-### Wallet Notifications
-
-| Event | Notification (Arabic) |
-|-------|----------------------|
-| Deposit received | "💰 عربون [X] ج.م اتحجز من [Client Name] لحجز [Service]." |
-| Booking completed, funds released | "✅ [X] ج.م اتضاف لرصيدك المتاح من حجز [Booking ID]." |
-| No-show Deposit transferred | "🛡️ عربون [X] ج.م اتحول لرصيدك (عدم حضور العميل)." |
-| Payout processed | "💸 تم تحويل [X] ج.م لحسابك في [Method]." |
-| Commission deducted | "📊 عمولة بوكي [X] ج.م اتخصمت من حجز [Booking ID]." |
-
----
-
-## 9. Merchant Payout (Withdrawal) Logic
-
-### Payout Methods
-
-| Method | Arabic | Min Withdrawal | Processing Time | Fee |
-|--------|--------|---------------|-----------------|-----|
-| **Vodafone Cash** | فودافون كاش | 100 EGP | Instant – 2 hours | 1% (min 5 EGP) |
-| **InstaPay** | إنستا باي | 100 EGP | Instant – 30 minutes | 5 EGP flat |
-| **Bank Transfer** | تحويل بنكي | 500 EGP | 1-3 business days | 15 EGP flat |
-
-### Withdrawal Request Flow
-
-```
-MERCHANT TAPS "اسحب الرصيد"
-         │
-         ▼
-┌─────────────────────────────────────────────────────────────┐
-│              طلب سحب الرصيد                                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│   الرصيد المتاح: 2,450 ج.م                                 │
-│                                                              │
-│   المبلغ المطلوب سحبه:                                      │
-│   [ _____________ ] ج.م                                      │
-│   أو [ اسحب الكل ]                                          │
-│                                                              │
-│   طريقة السحب:                                              │
-│   ( ● ) 📱 فودافون كاش — 01XXXXXXXXX                       │
-│   ( ○ ) 🏦 إنستا باي — بنك مصر ****1234                     │
-│   ( ○ ) 🏦 تحويل بنكي — CIB ****5678                        │
-│                                                              │
-│   [ + أضف طريقة سحب جديدة ]                                 │
-│                                                              │
-│   ── ملخص ──                                                │
-│   المبلغ: 2,450 ج.م                                         │
-│   رسوم السحب: -25 ج.م (1%)                                  │
-│   صافي التحويل: 2,425 ج.م                                   │
-│   الوقت المتوقع: فوري — ساعتين                               │
-│                                                              │
-│               [ 🔴 أكد طلب السحب ]                            │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### Payout Rules
-
-| Rule | Value |
-|------|-------|
-| **Minimum Withdrawal** | 100 EGP (VF Cash / InstaPay) or 500 EGP (Bank Transfer) |
-| **Maximum Withdrawal** | Available balance (cannot withdraw pending) |
-| **Frequency** | No limit (can withdraw daily) |
-| **Verification Required** | ✅ Merchant must be verified (not in Trial Mode) |
-| **KYC for Large Amounts** | Withdrawals > 5,000 EGP/day → additional ID verification |
-| **Auto-Payout** | Optional: Merchant can enable weekly auto-payout to preferred method |
-| **Failed Payout** | Funds returned to Available balance within 24h. Merchant notified. |
-
-### Payout Schedule Options
-
-| Option | Detail | Who Uses |
-|--------|--------|----------|
-| **Manual** (default) | Merchant requests payout when needed | Most Merchants |
-| **Weekly Auto** | Every Sunday at 10:00 AM (Cairo time) | Established Merchants |
-| **Threshold Auto** | Auto-payout when balance exceeds [X] EGP | High-volume Merchants |
-
----
-
-## 10. Commission Model — Auto-Deduction vs. Invoicing
+## 8. Commission Model — Auto-Deduction vs. Invoicing
 
 ### The Two Commission Collection Methods
 
@@ -757,7 +618,7 @@ MERCHANT TAPS "اسحب الرصيد"
 |--------------|----------------------|--------------|
 | Barber / Haircut | 20 EGP | Service price < 200 EGP |
 | Gym Day Pass | 25 EGP | Service price < 200 EGP |
-| Nail Appointment | 20 EGP | Service price < 200 EGP |
+| Nail Booking | 20 EGP | Service price < 200 EGP |
 | Small Home Repair | 30 EGP | Service price < 300 EGP |
 
 #### Percentage Model (High-Ticket, Variable-Value Services)
@@ -766,14 +627,14 @@ MERCHANT TAPS "اسحب الرصيد"
 |--------------|-------------|--------------|
 | Football Pitch | 5% | Service price ≥ 200 EGP |
 | Event Venue | 8% | All event Bookings |
-| Wedding Package | 10% | All wedding Bookings |
+| Wedding Service | 10% | All wedding Bookings |
 | Corporate Booking | 7% | All corporate Bookings |
 | Large Home Project | 5% | Service price ≥ 500 EGP |
 
 #### Subscription Tier Discount on Commission
 
-| Merchant Dashboard Tier | Commission Discount | Example (200 EGP, 5% rate) |
-|------------------------|--------------------|-----------------------------|
+| Merchant Subscription Tier | Commission Discount | Example (200 EGP, 5% rate) |
+|---------------------------|--------------------|-----------------------------|
 | Start (البداية) — Free | Standard rate | 10 EGP commission |
 | Pro (المحترف) — 120 EGP/mo | -1% discount | 8 EGP commission (4%) |
 | Pasha (الباشا) — 450 EGP/mo | -2% discount | 6 EGP commission (3%) |
@@ -844,33 +705,9 @@ PAYMENT OPTIONS:
               → Day 45: Account suspended (existing Bookings honored)
 ```
 
-### Commission Financial Summary
-
-```
-MONTHLY COMMISSION FLOW:
-─────────────────────────
-
-Online Bookings (auto-deducted):
-  Revenue:        50,000 EGP
-  Commission:     -2,500 EGP (avg 5%)
-  To Merchants:   47,500 EGP ← Already in Wallets
-
-Cash Bookings (invoiced):
-  Revenue:        30,000 EGP (collected by Merchants directly)
-  Commission due: 1,500 EGP
-  Invoiced:       1,500 EGP ← Due by 15th of next month
-
-Platform Total:
-  Online commission:  2,500 EGP
-  Cash commission:    1,500 EGP
-  Gateway fees:       -500 EGP
-  ─────────────────────
-  Net Platform Revenue: 3,500 EGP
-```
-
 ---
 
-## 11. Refund & Cancellation Logic
+## 9. Refund & Cancellation Logic
 
 ### Refund Matrix
 
@@ -878,10 +715,10 @@ Platform Total:
 |----------|-------------|--------|--------|--------|
 | Cancel within window | Client cancels Booking | Before cancellation deadline | ✅ Full Deposit refund | Original payment method |
 | Cancel outside window | Client cancels Booking | After cancellation deadline | ❌ Deposit forfeited to Merchant | N/A |
-| Merchant cancels | Merchant cancels Booking | Any time | ✅ Full Deposit refund + 50 bonus Coins | Original method + Coins credit |
+| Merchant cancels | Merchant cancels Booking | Any time | ✅ Full Deposit refund + 50 bonus Booky Coins | Original method + Booky Coins credit |
 | Service not delivered | Client disputes | Post-Slot time | ✅ Full refund (after review) | Original payment method |
 | Double charge | System error | Any time | ✅ Immediate full refund | Original payment method |
-| Merchant no-show | Merchant doesn't show | Post-Slot time | ✅ Full refund + 100 bonus Coins | Original method + Coins credit |
+| Merchant no-show | Merchant doesn't show | Post-Slot time | ✅ Full refund + 100 bonus Booky Coins | Original method + Booky Coins credit |
 
 ### Refund Processing Times
 
@@ -892,7 +729,7 @@ Platform Total:
 | Credit/Debit Card | 3-7 business days | Bank processing time |
 | Meeza Card | 3-5 business days | National debit processing |
 | Fawry | 1-3 business days | Fawry credit or cash at agent |
-| Booky Coins | Instant | Coins returned to balance |
+| Booky Coins | Instant | Booky Coins returned to balance |
 
 ### Cancellation Window
 
@@ -921,13 +758,13 @@ BOOKING CONFIRMED
 |------|--------|-----|
 | 1. Client raises dispute | In-app: "الخدمة مكنتش زي المتفق عليه" | Immediate |
 | 2. Booky reviews | Support team contacts both parties | 24 hours |
-| 3. Evidence collected | Photos, chat history, Booking details | 48 hours |
+| 3. Evidence collected | Photos, Inquiry history, Booking details | 48 hours |
 | 4. Decision | Refund, partial refund, or rejected | 72 hours |
 | 5. Resolution | Funds moved accordingly | Immediate after decision |
 
 ---
 
-## 12. Payment Gateway Integration Plan
+## 10. Payment Gateway Integration Plan
 
 ### Phase 1: Paymob (Primary Gateway)
 
@@ -983,7 +820,7 @@ BOOKING CONFIRMED
 
 ---
 
-## 13. Reconciliation & Financial Controls
+## 11. Reconciliation & Financial Controls
 
 ### Daily Reconciliation
 
@@ -1049,7 +886,7 @@ ESCROW STATUS:
 
 ---
 
-## 14. Data Model — Financial Tables
+## 12. Data Model — Financial Tables
 
 ### Payments Table
 
@@ -1075,10 +912,10 @@ CREATE TABLE payments (
     gateway_txn_id      VARCHAR(100),                    -- External transaction ID
     gateway_response    JSONB,                           -- Raw gateway response
 
-    -- Coins
+    -- Booky Coins
     coins_redeemed      INTEGER DEFAULT 0,               -- Booky Coins used
-    coins_discount_egp  INTEGER DEFAULT 0,               -- EGP value of Coins
-    online_bonus_coins  INTEGER DEFAULT 0,               -- +5% bonus Coins earned
+    coins_discount_egp  INTEGER DEFAULT 0,               -- EGP value of Booky Coins
+    online_bonus_coins  INTEGER DEFAULT 0,               -- +5% bonus Booky Coins earned
 
     -- Timestamps
     created_at          TIMESTAMPTZ DEFAULT NOW(),
@@ -1185,6 +1022,85 @@ CREATE INDEX idx_invoices_status ON commission_invoices(status);
 
 ---
 
+## 13. Gherkin Scenarios
+
+### Scenario 1: Online Deposit Payment via Vodafone Cash
+
+```gherkin
+Feature: Payment Gateway — Online Deposit
+
+  Scenario: Client pays Deposit via Vodafone Cash
+    Given a Client is booking a football pitch for 300 EGP
+    And the Sector is "sports" with Deposit rate 20%
+    And Deposit required: 60 EGP
+
+    When the Client selects "فودافون كاش" as payment method
+    Then the system initiates a Paymob VF Cash STK Push for 60 EGP
+    And the Client enters their 6-digit VF Cash PIN on their phone
+    And the payment is confirmed via Paymob webhook
+
+    Then the Booking status is updated to CONFIRMED
+    And 60 EGP is held in Booky Escrow
+    And the Client is notified: "✅ تم تأكيد حجزك — العربون 60 ج.م"
+    And the Client earns an online payment bonus flag: +5% Booky Coins on completion
+```
+
+### Scenario 2: Cash on Arrival with No-Show
+
+```gherkin
+  Scenario: Client books with cash and no-shows
+    Given a Client has booked a barber Booking for 80 EGP (cash, no Deposit)
+    And the Booking is CONFIRMED with status CASH_ON_ARRIVAL
+
+    When the Slot time passes and the Client does not arrive
+    And the Merchant marks the Booking as NO_SHOW within 2 hours
+
+    Then the Client's no-show counter is incremented
+    And the Client is notified: "⚠️ اتسجل عدم حضورك لحجز حلاقة في [Merchant]"
+    And the Merchant receives no Deposit compensation (cash Booking)
+    And the system checks if the Client has 3+ no-shows in 30 days for Rank demotion
+```
+
+### Scenario 3: Commission Invoice for Cash Bookings
+
+```gherkin
+  Scenario: Monthly commission invoice generated for cash Bookings
+    Given a Merchant "صالون أحمد" had 45 cash Bookings in February 2026
+    And total cash revenue was 6,750 EGP
+    And the Merchant is on Pro Subscription Tier (-1% commission discount)
+
+    When March 1st arrives and the monthly invoice job runs
+    Then the system generates an invoice:
+      | field              | value      |
+      | cash_bookings      | 45         |
+      | gross_revenue      | 6,750 EGP  |
+      | base_commission    | 337 EGP    |
+      | tier_discount      | -67 EGP    |
+      | invoice_total      | 270 EGP    |
+      | due_date           | 2026-03-15 |
+    And the invoice is sent via in-app, WhatsApp, and email
+    And payment options include: auto-deduct from Wallet, VF Cash, InstaPay, or agent collection
+```
+
+---
+
+## 14. Edge Cases
+
+| # | Edge Case | Business Rule |
+|---|-----------|---------------|
+| 1 | **VF Cash STK Push times out (30s)** | Retry once. Then offer manual USSD: "اطلب *9*{amount}#". After 2 failures, suggest alternative method. |
+| 2 | **InstaPay confirmation delayed > 10 min** | Slot released. Booking cancelled. If payment arrives later, auto-refund within 24h. |
+| 3 | **Client pays with Meeza but card is expired** | Paymob rejects. Show: "البطاقة منتهية — جدد البطاقة أو استخدم طريقة تانية." |
+| 4 | **Client double-taps pay button** | Idempotency key on payment creation. Second request returns same payment_id. Cannot be double-charged. |
+| 5 | **Gateway down (Paymob outage)** | Detect via health check every 60s. Hide digital methods. Show cash only (if allowed). Banner: "الدفع الإلكتروني مش متاح حالياً." |
+| 6 | **Deposit amount < 10 EGP (minimum)** | Force Deposit = 10 EGP. Example: 50 EGP Service × 15% = 7.5 EGP → 10 EGP Deposit. |
+| 7 | **Client uses Booky Coins + Card for a Deposit-required Booking** | Booky Coins discount applied to remaining balance ONLY (not the Deposit). Deposit always = % of ORIGINAL price. |
+| 8 | **Refund to expired card** | Paymob attempts refund → bank may issue check or credit to replacement card. Client notified: "الريفاند ممكن ياخد وقت أطول لو البطاقة اتغيرت." |
+| 9 | **Commission invoice overdue > 45 days** | Account suspended. Existing Bookings honored (no Client impact). Reactivation requires full payment + 50 EGP late fee. |
+| 10 | **Fawry code expires (24h window)** | Booking cancelled. Slot released. Client notified: "كود فوري انتهى — احجز تاني." |
+
+---
+
 ## 15. Acceptance Criteria
 
 ### Cash on Arrival ✓
@@ -1207,46 +1123,31 @@ CREATE INDEX idx_invoices_status ON commission_invoices(status);
 ### Deposit System ✓
 
 - [ ] Deposit percentage varies by Sector (20-100%).
-- [ ] Deposit calculated on ORIGINAL price (before Coin discounts).
+- [ ] Deposit calculated on ORIGINAL price (before Booky Coins discounts).
 - [ ] Cash and Booky Coins cannot be used for Deposits.
 - [ ] Cancellation within window: full Deposit refund.
 - [ ] Cancellation outside window: Deposit forfeited to Merchant.
 - [ ] No-show: Deposit auto-transferred to Merchant within 24 hours.
-- [ ] Deposit held in escrow until Booking outcome determined.
-
-### Merchant Wallet ✓
-
-- [ ] Real-time Wallet dashboard showing Available, Pending, and Total balances.
-- [ ] Every transaction logged with amount, type, reference, and running balance.
-- [ ] Monthly PDF/CSV report downloadable.
-
-### Merchant Payout ✓
-
-- [ ] Withdrawal via VF Cash (instant–2h), InstaPay (instant–30min), Bank (1-3 days).
-- [ ] Minimum withdrawal: 100 EGP (wallet) / 500 EGP (bank).
-- [ ] Auto-payout option (weekly or threshold-based).
-- [ ] Verification required for payouts (Trial Mode excluded).
-- [ ] KYC check for withdrawals > 5,000 EGP/day.
+- [ ] Deposit held in Escrow until Booking outcome determined.
 
 ### Commission Model ✓
 
-- [ ] Online payments: Commission auto-deducted before Wallet credit.
+- [ ] Online payments: Commission auto-deducted before Merchant Wallet credit.
 - [ ] Cash payments: Commission invoiced monthly, due within 15 days.
-- [ ] Tier-based discount: Start=standard, Pro=-1%, Pasha=-2%.
+- [ ] Subscription Tier-based discount: Start=standard, Pro=-1%, Pasha=-2%.
 - [ ] 14% VAT applied to all commissions.
 - [ ] Overdue invoices: escalation at Day 15, 20, 30, 45.
 
 ### Refunds ✓
 
 - [ ] Refund to original payment method within SLA times.
-- [ ] Merchant cancellation: full refund + 50 bonus Coins to Client.
-- [ ] Merchant no-show: full refund + 100 bonus Coins to Client.
+- [ ] Merchant cancellation: full refund + 50 bonus Booky Coins to Client.
+- [ ] Merchant no-show: full refund + 100 bonus Booky Coins to Client.
 - [ ] Dispute resolution within 72 hours.
 
 ---
 
-> **📌 This document follows the Project Dictionary defined in [`BOOKY_CENTER_BUSINESS_MASTER.md`](../BOOKY_CENTER_BUSINESS_MASTER.md) §2. All terms (Client, Merchant, Service, Sector, Booking, Slot, Deposit, Booky Coins) are used as canonically defined. Financial rules: All amounts in EGP integers, all timestamps in UTC (displayed as EET).**
+> **📌 Source of Truth:** This document aligns with [BOOKY_CENTER_BUSINESS_MASTER.md](mdc:docs/BOOKY_CENTER_BUSINESS_MASTER.md) §2 (Dictionary), §4 (Global Rules), §10 (Revenue & Commission), §11 (Deposit System). All terms (Client, Merchant, Service, Sector, Booking, Slot, Deposit, Booky Coins) are used as canonically defined. Financial rules: All amounts in EGP integers, all timestamps in UTC (displayed as EET).
+>
+> *Booky Center: بضغطة واحدة.. ميعادك في جيبك* ✨
 
----
-
-**END OF DOCUMENT**
